@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "title": "Mohammed Aydan | Full Stack Developer | Web & Mobile Development",
+    "description": "Full Stack Developer specializing in React, Next.js, Flutter, and .NET Core. Creating high-performance web and mobile applications with modern technologies."
+  },
+  "navigation": {
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "education": "Education",
+    "success": "Success"
+  },
+  "hero": {
+    "name": "Mohammed Aydan",
+    "title": "Full Stack Developer"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Who I Am",
+    "description": "I'm Mohammed Aydan, a Computer Science student at Mansoura University, Egypt (Expected graduation: 2027). I specialize in full-stack development with a strong focus on performance, scalability, and user experience. My passion for software development drives me to continuously learn and improve my skills, creating applications that are not only functional but also provide exceptional user experiences.",
+    "location": "Mansoura, Egypt"
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "Academic Background",
+    "degree": "Bachelor of Science in Computer and Information Science",
+    "university": "Faculty of Computer & Information Sciences – Mansoura University, Egypt",
+    "graduation": "Expected Graduation: 2027"
+  },
+  "success": {
+    "title": "Achievements",
+    "subtitle": "My Success Metrics",
+    "projects": {
+      "title": "Projects",
+      "description": "Completed projects across web and mobile platforms"
+    },
+    "languages": {
+      "title": "Languages",
+      "description": "Programming languages in my technical arsenal"
+    },
+    "frameworks": {
+      "title": "Frameworks",
+      "description": "Frameworks and libraries I've mastered"
+    },
+    "experience": {
+      "title": "Experience",
+      "description": "Years of development experience"
+    }
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "subtitle": "My Expertise",
+    "languages": "Programming Languages",
+    "frameworks": "Frameworks",
+    "databases": "Databases",
+    "tools": "Tools"
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "My Recent Work",
+    "ecommerceApi": {
+      "title": "Ecommerce API",
+      "description": "Developed an e-commerce API using .NET Core to manage categories, products, users."
+    },
+    "chatApp": {
+      "title": "Chat App",
+      "description": "Added chat features to the social media app using Firebase for real-time messaging."
+    },
+    "portfolio": {
+      "title": "Portfolio Website",
+      "description": "Created a personal portfolio website to showcase projects and skills using modern web technologies."
+    },
+    "storeApp": {
+      "title": "Store App",
+      "description": "Built an e-commerce mobile app with Flutter."
+    },
+    "blog": {
+      "title": "Blog Platform",
+      "description": "Designed a blog platform with a React.js frontend and Laravel backend."
+    },
+    "socialApp": {
+      "title": "Social Media App",
+      "description": "Developed a social media app using Flutter and Supabase."
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Let's Connect"
+  },
+  "footer": {
+    "copyright": "© {year} Mohammed Aydan. All rights reserved."
+  }
+}
