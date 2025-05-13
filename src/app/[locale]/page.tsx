@@ -51,13 +51,13 @@ export default async function Home() {
     <div className={`w-full ${isRtl ? "rtl" : "ltr"}`}>
       {/* Hero Section */}
       <section className={cn(
-        "relative pb-16 pt-32 text-white",
+        "relative pb-16 pt-32 text-foreground",
         // " bg-gradient-to-b from-primary to-primary/70"
       )}>
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:20px_20px]"></div>
+        <div className="absolute inset-0 bg-[length:20px_20px]"></div>
         <div className="container relative z-10 mx-auto px-4">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-6 h-32 w-32 overflow-hidden rounded-full border-4 border-white/20 shadow-lg">
+            <div className="mb-6 h-32 w-32 overflow-hidden rounded-full border-4 border-foreground/20 shadow-lg">
               <Image
                 width={128}
                 height={128}
@@ -67,16 +67,16 @@ export default async function Home() {
                 priority
               />
             </div>
-            <h1 className="mb-4 bg-gradient-to-r from-white to-white/80 bg-clip-text text-4xl font-bold text-transparent md:text-5xl p-2">
+            <h1 className="mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-4xl font-bold text-transparent md:text-5xl p-2">
               {t("hero.name")}
             </h1>
-            <h2 className="mb-8 text-xl text-white/90 md:text-2xl">{t("hero.title")}</h2>
+            <h2 className="mb-8 text-xl text-foreground/90 md:text-2xl">{t("hero.title")}</h2>
             <div className="flex gap-4">
               <Link hrefLang={locale} href="https://github.com/MohammedAydan" target="_blank" rel="noopener noreferrer">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full border-white/20 bg-white/10 backdrop-blur hover:bg-white hover:text-primary"
+                  className="rounded-full border-foreground/20 bg-white/10 backdrop-blur hover:bg-white hover:text-primary"
                 >
                   <Github className="h-5 w-5" />
                   <span className="sr-only">GitHub</span>
@@ -86,7 +86,7 @@ export default async function Home() {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full border-white/20 bg-white/10 backdrop-blur hover:bg-white hover:text-primary"
+                  className="rounded-full border-foreground/20 bg-white/10 backdrop-blur hover:bg-white hover:text-primary"
                 >
                   <Linkedin className="h-5 w-5" />
                   <span className="sr-only">LinkedIn</span>
@@ -96,7 +96,7 @@ export default async function Home() {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full border-white/20 bg-white/10 backdrop-blur hover:bg-white hover:text-primary"
+                  className="rounded-full border-foreground/20 bg-white/10 backdrop-blur hover:bg-white hover:text-primary"
                 >
                   <Mail className="h-5 w-5" />
                   <span className="sr-only">Email</span>

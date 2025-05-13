@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useTranslations } from "next-intl"
+import Image from "next/image"
 
 interface NavbarProps {
   locale: string
@@ -44,9 +45,16 @@ export default function Navbar({ locale }: NavbarProps) {
         <Link
           hrefLang={locale}
           href={`/${locale}`}
-          className="text-xl font-bold text-foreground"
+          className="text-xl font-bold text-foreground flex items-center justify-center gap-3"
         >
-          Mohammed Aydan
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={60}
+            height={60}
+            className="p-2"
+          />
+          <p>Mohammed Aydan</p>
         </Link>
 
         {/* Desktop Navigation */}
