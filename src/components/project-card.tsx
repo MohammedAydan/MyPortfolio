@@ -38,10 +38,13 @@ export default function ProjectCard({
             <Badge
               key={tech}
               variant="secondary"
-              className="bg-primary/10 hover:bg-primary/20 text-primary dark:bg-primary/20"
+              // className="bg-primary/10 hover:bg-primary/20 text-primary dark:bg-primary/20"
+              className="bg-primary/80 text-foreground"
+
             >
               {tech}
             </Badge>
+
           ))}
         </div>
       </CardContent>

@@ -1,10 +1,11 @@
 import Link from "next/link"
 import { Github, Linkedin, Mail, Phone } from "lucide-react"
-import { useTranslations } from 'next-intl';
+import { getLocale, getTranslations } from "next-intl/server";
 
 
-export default function Footer() {
-  const t = useTranslations();
+export default async function Footer() {
+  const t = await getTranslations();
+  const locale = await getLocale();
 
   // Default copyright text if dict is undefined
   const year = new Date().getFullYear().toString()
@@ -49,7 +50,7 @@ export default function Footer() {
               <span className="sr-only">Email</span>
             </Link>
 
-            <Link href="tel:+201552955862" className="text-muted-foreground transition-colors hover:text-foreground">
+            <Link hrefLang={locale} href="tel:+201552955862" className="text-muted-foreground transition-colors hover:text-foreground">
               <Phone className="h-5 w-5" />
               <span className="sr-only">Phone</span>
             </Link>
