@@ -45,16 +45,16 @@ export default function Navbar({ locale }: NavbarProps) {
         <Link
           hrefLang={locale}
           href={`/${locale}`}
-          className="text-xl font-bold text-foreground flex items-center justify-center gap-3"
+          className="text-foreground flex items-center justify-center gap-3"
         >
           <Image
             src="/logo.png"
             alt="Logo"
-            width={60}
-            height={60}
+            width={50}
+            height={50}
             className="p-2"
           />
-          <p>Mohammed Aydan</p>
+          <p className="text-sm md:text-xl font-bold">Mohammed Aydan</p>
         </Link>
 
         {/* Desktop Navigation */}

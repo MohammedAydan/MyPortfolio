@@ -20,6 +20,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   metadataBase: new URL(BASE_URL),
   title: "Mohammed Aydan | Full Stack Developer | Web & Mobile Development",
   description: "Full Stack Developer specializing in web and mobile development with React, Next.js, Flutter, and .NET Core",

@@ -18,6 +18,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
 
   return {
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon.ico",
+      apple: "/favicon.ico",
+    },
     metadataBase: new URL(BASE_URL),
     title: t('metadata.title'),
     description: t('metadata.description'),
