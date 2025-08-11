@@ -13,8 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Sections on the same page
     const sections = [
         '#about',
+        '#education',
+        '#success',
+        '#skills',
         '#projects',
-        '#services',
         '#contact',
     ];
 
