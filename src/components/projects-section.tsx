@@ -8,6 +8,15 @@ const ProjectsSection = async () => {
 
     const projects = [
         {
+            title: t("projects.myPortfolio.title"),
+            description: t("projects.myPortfolio.description"),
+            githubUrl: "https://github.com/MohammedAydan/MyPortfolio",
+            technologies: ["Next.js"],
+            // additionalLinks: [
+            //     { label: "Backend", url: "https://github.com/MohammedAydan/MyPortfolio" },
+            // ],
+        },
+        {
             title: t("projects.ecommerceApp.title"),
             description: t("projects.ecommerceApp.description"),
             githubUrl: "https://github.com/MohammedAydan/ecommerce-app",

@@ -59,6 +59,10 @@
     "projects": {
         "title": "Featured Projects",
         "subtitle": "My Recent Work",
+        "myPortfolio":{
+            "title": "My Portfolio",
+            "description": "Created a personal portfolio website using Next.js to showcase projects and skills in a modern and innovative style."
+        },
         "ecommerceApp": {
             "title": "E-commerce App",
             "description": "Developed a fully-featured e-commerce application using Next.js, delivering a seamless, fast, and responsive shopping experience across all devices."
