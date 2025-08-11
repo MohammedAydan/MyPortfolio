@@ -26,7 +26,7 @@
     "subtitle": "الخلفية الأكاديمية",
     "degree": "بكالوريوس علوم الحاسب والمعلومات",
     "university": "كلية الحاسبات والمعلومات - جامعة المنصورة، مصر",
-    "graduation": "التخ��ج المتوقع: 2027"
+    "graduation": "التخرج المتوقع: 2027"
   },
   "success": {
     "title": "الإنجازات",
@@ -86,7 +86,16 @@
   },
   "contact": {
     "title": "تواصل معي",
-    "subtitle": "لنتواصل"
+    "subtitle": "لنتواصل",
+    "fullName": "الاسم الكامل",
+    "fullNamePlaceholder": "أدخل اسمك الكامل",
+    "phone": "رقم الهاتف",
+    "phonePlaceholder": "أدخل رقم هاتفك",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "message": "الرسالة",
+    "messagePlaceholder": "اكتب رسالتك هنا...",
+    "sendMessage": "إرسال الرسالة"
   },
   "footer": {
     "copyright": "© {year} محمد أيدن. جميع الحقوق محفوظة."

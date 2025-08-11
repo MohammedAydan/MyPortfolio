@@ -8,7 +8,7 @@ interface SectionHeaderProps {
   subtitleClassName?: string
 }
 
-export default function SectionHeader({
+export default function HeaderSection({
   title,
   subtitle,
   className,

@@ -1,29 +1,51 @@
 // app/sitemap.ts
 import { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const BASE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    // Define your routes here
+    // Main paths
     const routes = [
-        '',
-        // Add all your public routes
+        '', // Home page
     ];
 
-    // Generate sitemap entries for each locale
+    // Sections on the same page
+    const sections = [
+        '#about',
+        '#projects',
+        '#services',
+        '#contact',
+    ];
+
+    // Available languages
     const locales = ['en', 'ar'];
 
-    const sitemapEntries = routes.flatMap(route => {
-        return locales.map(locale => {
+    // Core pages
+    const pages = routes.flatMap((route) =>
+        locales.map((locale) => {
             const localePath = locale === 'en' ? route : `/${locale}${route}`;
             return {
                 url: `${BASE_URL}${localePath}`,
                 lastModified: new Date(),
                 changeFrequency: 'weekly' as const,
-                priority: route === '' ? 1 : 0.8,
+                priority: 1.0,
             };
-        });
-    });
+        })
+    );
 
-    return sitemapEntries;
+    // Sections as separate links in the form of hashes (#)
+    const sectionLinks = sections.flatMap((section) =>
+        locales.map((locale) => {
+            const localePath = locale === 'en' ? '' : `/${locale}`;
+            return {
+                url: `${BASE_URL}${localePath}${section}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.8,
+            };
+        })
+    );
+
+    return [...pages, ...sectionLinks];
 }

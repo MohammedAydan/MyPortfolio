@@ -85,8 +85,17 @@
     }
   },
   "contact": {
-    "title": "Contact",
-    "subtitle": "Let's Connect"
+    "title": "Contact Me",
+    "subtitle": "Let's Connect",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "message": "Message",
+    "messagePlaceholder": "Write your message here...",
+    "sendMessage": "Send Message"
   },
   "footer": {
     "copyright": "© {year} Mohammed Aydan. All rights reserved."

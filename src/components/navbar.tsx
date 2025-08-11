@@ -37,7 +37,7 @@ export default function Navbar({ locale }: NavbarProps) {
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled
-        ? "border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        ? "border-b border-border bg-background/80 backdrop-blur-xs supports-[backdrop-filter]:bg-background/5"
         : "bg-transparent"
         }`}
     >
@@ -54,7 +54,7 @@ export default function Navbar({ locale }: NavbarProps) {
             height={50}
             className="p-2"
           />
-          <p className="text-sm md:text-xl font-bold">Mohammed Aydan</p>
+          <p className="text-sm sm:text-base md:text-lg xl:text-xl font-bold">Mohammed Aydan</p>
         </Link>
 
         {/* Desktop Navigation */}

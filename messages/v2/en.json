@@ -1,0 +1,131 @@
+{
+    "metadata": {
+        "title": "Mohammed Aydan | Web Developer & Mobile App Developer | Flutter & React Expert",
+        "description": "Web Developer and Mobile App Developer specializing in Flutter, React, Next.js, and .NET Core. Creating high-performance, scalable web and mobile applications using cutting-edge technologies."
+    },
+    "navigation": {
+        "about": "About",
+        "skills": "Skills",
+        "projects": "Projects",
+        "contact": "Contact",
+        "education": "Education",
+        "success": "Success"
+    },
+    "hero": {
+        "name": "Mohammed Aydan",
+        "title": "Web Developer & Mobile App Developer"
+    },
+    "about": {
+        "title": "About Me",
+        "subtitle": "Who I Am",
+        "description": "I'm Mohammed Aydan, a Computer Science student at Mansoura University, Egypt (Expected graduation: 2027). I specialize in web development and mobile app development using Flutter with a strong focus on high performance, scalability, and exceptional user experience. My hands-on development experience includes creating modern web applications and interactive mobile apps, which drives me to continuously learn and enhance my skills in the latest technologies to create functional applications that provide outstanding user experiences.",
+        "location": "Mansoura, Egypt"
+    },
+    "education": {
+        "title": "Education",
+        "subtitle": "Academic Background",
+        "degree": "Bachelor of Science in Computer and Information Science",
+        "university": "Faculty of Computer & Information Sciences – Mansoura University, Egypt",
+        "graduation": "Expected Graduation: 2027"
+    },
+    "success": {
+        "title": "Achievements",
+        "subtitle": "My Success Metrics",
+        "projects": {
+            "title": "Projects",
+            "description": "Successfully completed projects across diverse web and mobile platforms"
+        },
+        "languages": {
+            "title": "Languages",
+            "description": "Advanced programming languages in my comprehensive technical arsenal"
+        },
+        "frameworks": {
+            "title": "Frameworks",
+            "description": "Sophisticated frameworks and libraries I've masterfully acquired"
+        },
+        "experience": {
+            "title": "Experience",
+            "description": "Valuable years of development experience and continuous learning"
+        }
+    },
+    "skills": {
+        "title": "Technical Skills",
+        "subtitle": "My Expertise",
+        "languages": "Programming Languages",
+        "frameworks": "Frameworks",
+        "databases": "Databases",
+        "tools": "Tools"
+    },
+    "projects": {
+        "title": "Featured Projects",
+        "subtitle": "My Recent Work",
+        "ecommerceApp": {
+            "title": "E-commerce App",
+            "description": "Developed a fully-featured e-commerce application using Next.js, delivering a seamless, fast, and responsive shopping experience across all devices."
+        },
+        "ecommerceApi": {
+            "title": "E-commerce API",
+            "description": "Built a robust e-commerce API using .NET Core to efficiently manage categories, products, and users with advanced security and high performance."
+        },
+        "socialWebApp": {
+            "title": "Social Media App",
+            "description": "Developed a comprehensive social media app using React.js with advanced interactive features and exceptional performance."
+        },
+        "socialApi": {
+            "title": "Social Media REST API",
+            "description": "Designed a comprehensive RESTful API for a social media platform, enabling post creation, comments, likes, user following, notifications, and user management with high efficiency."
+        },
+        "chatApp": {
+            "title": "Chat App",
+            "description": "Added advanced chat features to the social media app using Flutter with Bloc and Firebase for real-time messaging and direct communication."
+        },
+        "portfolio": {
+            "title": "Portfolio Website",
+            "description": "Created a professional and responsive personal portfolio website using Next.js and Firebase to showcase projects and skills in a modern and innovative style."
+        },
+        "storeApp": {
+            "title": "Store App",
+            "description": "Built a comprehensive e-commerce mobile application using Flutter and Dart with smooth user interface and excellent shopping experience."
+        },
+        "blogWebApp": {
+            "title": "Blog Web App",
+            "description": "Developed a responsive and user-friendly blog web application using React.js, offering seamless content browsing and interaction."
+        },
+        "blogMobileApp": {
+            "title": "Blog Mobile App",
+            "description": "Built a cross-platform blog mobile application with Flutter, delivering smooth performance and intuitive navigation on both iOS and Android."
+        },
+        "blogApi": {
+            "title": "Blog API",
+            "description": "Implemented a robust backend API with Laravel and MySQL to manage posts, comments, users, and secure data operations."
+        },
+        "socialApp": {
+            "title": "Social Media App",
+            "description": "Developed a comprehensive social media application using Flutter and Supabase with advanced interactive features and exceptional performance."
+        }
+    },
+    "contact": {
+        "title": "Contact Me",
+        "subtitle": "Let's Connect",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Enter your full name",
+        "phone": "Phone Number",
+        "phonePlaceholder": "Enter your phone number",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email address",
+        "message": "Message",
+        "messagePlaceholder": "Write your detailed message here...",
+        "sendMessage": "Send Message",
+        "errors": {
+            "fullName": "Full Name is required",
+            "phone": "Phone Number is required",
+            "email": "Email is required",
+            "emailInvalid": "Email is invalid",
+            "message": "Message is required"
+        },
+        "successMessage": "Your message has been sent successfully!"
+    },
+    "footer": {
+        "copyright": "© {year} Mohammed Aydan. All rights reserved."
+    }
+}
