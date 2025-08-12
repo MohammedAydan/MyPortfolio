@@ -1,20 +1,30 @@
-import React from 'react'
-import SectionHeader from './header-section'
-import { getTranslations } from 'next-intl/server'
-import ProjectCard from "@/components/project-card"
+import SectionHeader from "./header-section";
+import { getTranslations } from "next-intl/server";
+import ShowProjects from "./show-projects";
+
+export interface AdditionalLink {
+    label: string;
+    url: string;
+}
+
+export interface Project {
+    title: string;
+    description: string;
+    githubUrl: string;
+    liveUrl?: string;
+    technologies: string[];
+    additionalLinks?: AdditionalLink[];
+}
 
 const ProjectsSection = async () => {
     const t = await getTranslations();
 
-    const projects = [
+    const projects: Project[] = [
         {
             title: t("projects.myPortfolio.title"),
             description: t("projects.myPortfolio.description"),
             githubUrl: "https://github.com/MohammedAydan/MyPortfolio",
             technologies: ["Next.js"],
-            // additionalLinks: [
-            //     { label: "Backend", url: "https://github.com/MohammedAydan/MyPortfolio" },
-            // ],
         },
         {
             title: t("projects.ecommerceApp.title"),
@@ -49,26 +59,26 @@ const ProjectsSection = async () => {
             githubUrl: "https://github.com/MohammedAydan/DotNetCoreSocialApi",
             technologies: [".NET Core", "C#", "Clean Architecture"],
             additionalLinks: [
-                { label: "Backend", url: "https://github.com/MohammedAydan/social-app" },
+                { label: "Frontend", url: "https://github.com/MohammedAydan/social-app" },
             ],
         },
         {
             title: t("projects.chatApp.title"),
             description: t("projects.chatApp.description"),
             githubUrl: "https://github.com/MohammedAydan/chatapp",
-            technologies: ["Flutter", "Bloc", "Firebase"]
+            technologies: ["Flutter", "Bloc", "Firebase"],
         },
         {
             title: t("projects.portfolio.title"),
             description: t("projects.portfolio.description"),
             githubUrl: "https://github.com/MohammedAydan/portfolio",
-            technologies: ["Next.js", "Firebase"]
+            technologies: ["Next.js", "Firebase"],
         },
         {
             title: t("projects.storeApp.title"),
             description: t("projects.storeApp.description"),
             githubUrl: "https://github.com/MohammedAydan/store",
-            technologies: ["Flutter", "Dart"]
+            technologies: ["Flutter", "Dart"],
         },
         {
             title: t("projects.blogWebApp.title"),
@@ -79,7 +89,7 @@ const ProjectsSection = async () => {
                 { label: "Backend", url: "https://github.com/MohammedAydan/BlogApi" },
                 { label: "Web App", url: "https://github.com/MohammedAydan/Blog-React.js" },
                 { label: "Mobile App", url: "https://github.com/MohammedAydan/Blog-flutter" },
-            ]
+            ],
         },
         {
             title: t("projects.blogMobileApp.title"),
@@ -90,7 +100,7 @@ const ProjectsSection = async () => {
                 { label: "Backend", url: "https://github.com/MohammedAydan/BlogApi" },
                 { label: "Web App", url: "https://github.com/MohammedAydan/Blog-React.js" },
                 { label: "Mobile App", url: "https://github.com/MohammedAydan/Blog-flutter" },
-            ]
+            ],
         },
         {
             title: t("projects.blogApi.title"),
@@ -101,34 +111,23 @@ const ProjectsSection = async () => {
                 { label: "Backend", url: "https://github.com/MohammedAydan/BlogApi" },
                 { label: "Web App", url: "https://github.com/MohammedAydan/Blog-React.js" },
                 { label: "Mobile App", url: "https://github.com/MohammedAydan/Blog-flutter" },
-            ]
+            ],
         },
         {
             title: t("projects.socialApp.title"),
             description: t("projects.socialApp.description"),
             githubUrl: "https://github.com/MohammedAydan/socialapp",
-            technologies: ["Flutter", "Supabase"]
-        }
+            technologies: ["Flutter", "Supabase"],
+        },
     ];
 
     return (
         <section id="projects" className="py-20 relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.08),transparent)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.05),transparent)]"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.08),transparent)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.05),transparent)]" />
             <SectionHeader title={t("projects.title")} />
-            <div className="container mx-auto px-4 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 relative z-10">
-                {projects.map(project => (
-                    <ProjectCard
-                        key={project.title}
-                        title={project.title}
-                        description={project.description}
-                        githubUrl={project.githubUrl}
-                        technologies={project.technologies}
-                        additionalLinks={project.additionalLinks}
-                    />
-                ))}
-            </div>
+            <ShowProjects projects={projects} />
         </section>
-    )
-}
+    );
+};
 
 export default ProjectsSection;

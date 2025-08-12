@@ -1,7 +1,7 @@
 {
     "metadata": {
-        "title": "Mohammed Aydan | Web Developer & Mobile App Developer | Flutter & React Expert",
-        "description": "Web Developer and Mobile App Developer specializing in Flutter, React, Next.js, and .NET Core. Creating high-performance, scalable web and mobile applications using cutting-edge technologies."
+        "title": "Mohammed Aydan | Web & Mobile App Developer",
+        "description": "Web and Mobile App Developer skilled in Flutter, React, Next.js, and .NET Core. Building high-performance, scalable web and mobile applications using modern technologies."
     },
     "navigation": {
         "about": "About",
@@ -59,7 +59,7 @@
     "projects": {
         "title": "Featured Projects",
         "subtitle": "My Recent Work",
-        "myPortfolio":{
+        "myPortfolio": {
             "title": "My Portfolio",
             "description": "Created a personal portfolio website using Next.js to showcase projects and skills in a modern and innovative style."
         },

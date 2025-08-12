@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import keywords from "@/lib/keywords";
+import type { Metadata } from "next";
+import Script from "next/script"; // ✅ import Script
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,71 +21,127 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
-  metadataBase: new URL(BASE_URL),
-  title: "Mohammed Aydan | Full Stack Developer | Web & Mobile Development",
-  description: "Full Stack Developer specializing in web and mobile development with React, Next.js, Flutter, and .NET Core",
-  keywords: ["Mohammed Aydan", "Mohamed Aydan", "Full Stack Developer", "Web Development", "Mobile Development", "React", "Next.js", "Flutter", ".NET Core"],
-  authors: [{ name: "Mohammed Aydan" }],
-  creator: "Mohammed Aydan",
-  publisher: "Mohammed Aydan",
-  robots: "index, follow",
-  alternates: {
-    canonical: `${BASE_URL}`,
-    languages: {
-      "en": `/en`,
-      "ar": `/ar`
-    }
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    alternateLocale: "ar_EG",
-    url: `/`,
-    siteName: "Mohammed Aydan Portfolio",
-    title: "Mohammed Aydan | Full Stack Developer | Web & Mobile Development",
-    description: "Full Stack Developer specializing in web and mobile development with React, Next.js, Flutter, and .NET Core",
-    images: [
-      {
-        url: `/photo.jpg`,
-        width: 800,
-        height: 600,
-        alt: "Mohammed Aydan"
-      }
-    ]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mohammed Aydan | Full Stack Developer | Web & Mobile Development",
-    description: "Full Stack Developer specializing in web and mobile development",
-    images: [`/photo.jpg`]
-  }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+  const locale = await getLocale();
+
+  const title = t("metadata.title");
+  const description = t("metadata.description");
+  const url = `${BASE_URL}/${locale}`;
+
+  return {
+    metadataBase: new URL(BASE_URL),
+    title,
+    description,
+    keywords,
+    icons: {
+      icon: `${BASE_URL}/favicon.ico`,
+      shortcut: `${BASE_URL}/favicon.ico`,
+      apple: `${BASE_URL}/favicon.ico`,
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        en: `${BASE_URL}/en`,
+        ar: `${BASE_URL}/ar`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: title,
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? "en_US" : "ar_EG",
+      type: "website",
+      images: [
+        {
+          url: `${BASE_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${BASE_URL}/og-image.png`],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        noimageindex: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const t = await getTranslations();
   const locale = await getLocale();
-  const isRtl = locale === "ar"
+  const isRtl = locale === "ar";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: t("hero.name"),
+    alternateName: t("hero.name"),
+    url: BASE_URL,
+  };
 
   return (
     <html
       lang={locale}
       suppressHydrationWarning
       dir={isRtl ? "rtl" : "ltr"}
-      className={`scroll-smooth`}
+      className="scroll-smooth"
     >
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${isRtl ? "font-cairo" : "font-inter"}`}>
+      <head>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-6MB4RLG71W"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6MB4RLG71W');
+          `}
+        </Script>
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${isRtl ? "font-cairo" : "font-inter"
+          }`}
+      >
         <NextIntlClientProvider>
-
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {/* JSON-LD Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(jsonLd),
+            }}
+          />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <div className="flex min-h-screen flex-col">
               <Navbar locale={locale} />
               <main className="flex-1">{children}</main>
@@ -91,7 +149,6 @@ export default async function RootLayout({
             </div>
           </ThemeProvider>
         </NextIntlClientProvider>
-
       </body>
     </html>
   );

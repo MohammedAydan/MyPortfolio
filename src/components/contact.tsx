@@ -87,7 +87,7 @@ const Contact = () => {
             onSubmit={handleSubmit}
             className="flex flex-col items-center gap-10 mt-12"
           >
-            <Card className="rounded-3xl bg-background/40 backdrop-blur-md border border-foreground/10 shadow-lg w-full max-w-3xl transition-all duration-300 hover:shadow-2xl">
+            <Card className="rounded-3xl bg-background/40 backdrop-blur-md border border-foreground/10 shadow-lg w-full max-w-4xl transition-all duration-300 hover:shadow-2xl">
               {error && (
                 <div className="bg-red-600 text-white py-2 px-4 rounded-2xl mx-4 flex items-center gap-2">
                   <CircleX size={20} />
@@ -109,7 +109,7 @@ const Contact = () => {
                         value={formData.fullName}
                         onChange={handleChange}
                         placeholder={t("contact.fullNamePlaceholder")}
-                        className="rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary"
+                        className="rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary p-5"
                       />
                       {errors.fullName && (
                         <span className="text-red-600">{errors.fullName}</span>
@@ -127,7 +127,7 @@ const Contact = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder={t("contact.phonePlaceholder")}
-                        className="rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary"
+                        className="rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary p-5"
                       />
                       {errors.phone && (
                         <span className="text-red-600">{errors.phone}</span>
@@ -148,7 +148,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder={t("contact.emailPlaceholder")}
-                      className="rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary"
+                      className="rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary p-5"
                     />
                     {errors.email && (
                       <span className="text-red-600">{errors.email}</span>
@@ -167,7 +167,7 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder={t("contact.messagePlaceholder")}
-                      className="h-40 resize-none rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary"
+                      className="h-40 resize-none rounded-xl bg-background/50 border-foreground/20 focus:ring-2 focus:ring-primary p-5"
                     />
                     {errors.message && (
                       <span className="text-red-600">{errors.message}</span>
@@ -176,7 +176,7 @@ const Contact = () => {
 
                   <Button
                     type="submit"
-                    className="w-full rounded-xl bg-primary text-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                    className="w-full rounded-xl bg-primary text-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 p-5"
                     disabled={loading}
                   >
                     {loading && (

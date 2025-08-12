@@ -25,9 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     keywords: keywords,
     icons: {
-      icon: "/favicon.ico",
-      shortcut: "/favicon.ico",
-      apple: "/favicon.ico",
+      icon: `${BASE_URL}/favicon.ico`,
+      shortcut: `${BASE_URL}/favicon.ico`,
+      apple: `${BASE_URL}/favicon.ico`,
     },
     alternates: {
       canonical: url,
@@ -59,6 +59,19 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [`${BASE_URL}/og-image.png`],
     },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        noimageindex: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
   };
 }
 
@@ -69,6 +82,7 @@ export default async function Home() {
 
   return (
     <div className={`w-full ${isRtl ? "rtl" : "ltr"}`}>
+
       {/* Hero Section */}
       <HeroSection />
 

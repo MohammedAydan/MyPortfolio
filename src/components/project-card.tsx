@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Github, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { getLocale } from "next-intl/server"
+import { useLocale } from "next-intl"
 
 interface AdditionalLink {
   label: string
@@ -18,7 +18,7 @@ interface ProjectCardProps {
   additionalLinks?: AdditionalLink[]
 }
 
-async function ProjectCard({
+function ProjectCard({
   title,
   description,
   githubUrl,
@@ -26,7 +26,7 @@ async function ProjectCard({
   technologies,
   additionalLinks,
 }: ProjectCardProps) {
-  const locale = await getLocale();
+  const locale = useLocale();
 
   return (
     <Card className="group rounded-3xl bg-background/40 backdrop-blur-md border border-foreground/10 shadow-lg h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:bg-background/60">

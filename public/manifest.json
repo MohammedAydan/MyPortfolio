@@ -1,11 +1,15 @@
 {
-  "name": "Mohammed Aydan Portfolio",
+  "name": "Mohammed Aydan | محمد أيدن",
   "short_name": "Portfolio",
-  "description": "Full Stack Developer specializing in React, Next.js, Flutter, and .NET Core",
+  "description": "Web and Mobile App Developer skilled in Flutter, React, Next.js, and .NET Core. Building high-performance, scalable web and mobile applications using modern technologies.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#000000",
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/favicon.ico",
