@@ -8,6 +8,8 @@ import Footer from "@/components/footer";
 import keywords from "@/lib/keywords";
 import type { Metadata } from "next";
 import Script from "next/script"; // ✅ import Script
+import { AiChatBoxProvider } from "@/contexts/ai-chat-box-context/ai-chat-box-context-context";
+import AiChatBox from "@/components/ai-chat-box";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -147,6 +149,11 @@ export default async function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
+
+            {/* // new  */}
+            <AiChatBoxProvider locale={locale}>
+              <AiChatBox />
+            </AiChatBoxProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
