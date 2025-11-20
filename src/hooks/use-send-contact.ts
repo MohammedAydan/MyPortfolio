@@ -13,7 +13,7 @@ const useSendContact = () => {
     }: {
         formData: Contact;
         locale?: string;
-    }) => {
+    }): Promise<boolean> => {
         setLoading(true);
         setError(null);
 
@@ -38,8 +38,11 @@ const useSendContact = () => {
             } else {
                 setError(result.message?.[locale] || "Something went wrong");
             }
+
+            return (result.code === "CONTACT_ADDED");
         } catch (err) {
             setError(err instanceof Error ? err.message : "Something went wrong");
+            return false;
         } finally {
             setLoading(false);
         }
