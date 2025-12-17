@@ -46,6 +46,8 @@ export function AdUnit({
         // Don't initialize if already done, no slotId, or invalid client ID
         if (hasInitialized.current || !slotId || !isValidAdClientId(AD_CLIENT_ID)) return;
 
+        let timeoutId: NodeJS.Timeout | null = null;
+
         const loadScript = (): Promise<void> => {
             return new Promise((resolve, reject) => {
                 // Check if script already exists
@@ -72,7 +74,7 @@ export function AdUnit({
                 await loadScript();
 
                 // Wait for script to be fully loaded
-                const timeoutId = setTimeout(() => {
+                timeoutId = setTimeout(() => {
                     // Check if the ad element exists and hasn't been initialized
                     const adElement = adRef.current;
                     if (adElement && !adElement.getAttribute("data-adsbygoogle-status")) {
@@ -83,18 +85,19 @@ export function AdUnit({
                         setAdStatus("loaded");
                     }
                 }, 150);
-
-                // Store timeout ID for cleanup
-                return () => clearTimeout(timeoutId);
             } catch (e) {
                 console.error("AdSense error:", e);
                 setAdStatus("error");
             }
         };
 
-        const cleanup = initAd();
+        initAd();
+
+        // Cleanup function to clear timeout on unmount
         return () => {
-            cleanup?.then(fn => fn?.());
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
         };
     }, [slotId]);
 

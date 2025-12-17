@@ -168,7 +168,7 @@ export function LogosPageContent({
                             {searchQuery && (
                                 <span>
                                     {" "}
-                                    for &quot;<span className="font-medium">{searchQuery.replace(/[<>]/g, '')}</span>
+                                    for &quot;<span className="font-medium">{searchQuery}</span>
                                     &quot;
                                 </span>
                             )}

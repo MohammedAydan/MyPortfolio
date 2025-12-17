@@ -73,13 +73,14 @@ export const logos: Logo[] = [
  * @returns The logo object if found, undefined otherwise
  */
 export function getLogoBySlug(slug: string): Logo | undefined {
-    // Basic runtime validation and normalization of the slug parameter
+    // Basic runtime validation of the slug parameter
     if (typeof slug !== 'string' || !slug.trim()) {
         return undefined;
     }
 
+    // Normalize slug: trim whitespace and convert to lowercase to match data
     const normalizedSlug = slug.trim().toLowerCase();
-    return logos.find(logo => logo.slug === normalizedSlug);
+    return logos.find(logo => logo.slug.toLowerCase() === normalizedSlug);
 }
 
 /**
