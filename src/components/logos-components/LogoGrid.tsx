@@ -32,7 +32,7 @@ export function LogoGrid({ logos }: LogoGridProps) {
             role="list"
             aria-label="Logo gallery"
         >
-            {items.map((item, idx) => {
+            {items.map((item) => {
                 if (item.type === "ad") {
                     return (
                         <div

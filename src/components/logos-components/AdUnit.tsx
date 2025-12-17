@@ -29,7 +29,7 @@ export function AdUnit({
 
         const loadAdSenseScript = (): Promise<void> => {
             return new Promise((resolve) => {
-                if ((window as any).adsbygoogle) {
+                if ((window as unknown as { adsbygoogle?: unknown[] }).adsbygoogle) {
                     resolve();
                     return;
                 }
@@ -98,8 +98,9 @@ export function AdUnit({
                 adContainerRef.current.innerHTML = getInsElement();
 
                 try {
-                    (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-                    (window as any).adsbygoogle.push({});
+                    const win = window as unknown as { adsbygoogle: unknown[] };
+                    win.adsbygoogle = win.adsbygoogle || [];
+                    win.adsbygoogle.push({});
                     setAdInitialized(true);
                 } catch (e) {
                     console.error("AdSense push error:", e);
