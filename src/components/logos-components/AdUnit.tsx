@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useId } from "react";
+import { useEffect, useRef, useState, useId, useCallback } from "react";
 
 type AdVariant = "display" | "in-article" | "in-feed";
 
@@ -28,60 +28,101 @@ export function AdUnit({
     variant = "display",
     layoutKey = "",
 }: AdUnitProps) {
+    const containerRef = useRef<HTMLDivElement>(null);
     const adRef = useRef<HTMLModElement>(null);
-    const [adStatus, setAdStatus] = useState<"loading" | "loaded" | "error">("loading");
+    const [adStatus, setAdStatus] = useState<"idle" | "loading" | "loaded" | "error">("idle");
     const uniqueId = useId();
     const hasInitialized = useRef(false);
 
-    useEffect(() => {
-        // Don't initialize if already done, no slotId, or no client ID
+    const loadAdSenseScript = useCallback((): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            // Check if script already exists
+            const existingScript = document.querySelector(
+                'script[src*="pagead2.googlesyndication.com"]'
+            );
+            if (existingScript) {
+                resolve();
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT_ID}`;
+            script.async = true;
+            script.crossOrigin = "anonymous";
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error("Failed to load AdSense script"));
+            document.head.appendChild(script);
+        });
+    }, []);
+
+    const initializeAd = useCallback(async () => {
         if (hasInitialized.current || !slotId || !AD_CLIENT_ID) return;
 
-        const loadScript = (): Promise<void> => {
-            return new Promise((resolve, reject) => {
-                // Check if script already exists
-                const existingScript = document.querySelector(
-                    'script[src*="pagead2.googlesyndication.com"]'
-                );
-                if (existingScript) {
-                    resolve();
-                    return;
-                }
+        try {
+            setAdStatus("loading");
+            await loadAdSenseScript();
 
-                const script = document.createElement("script");
-                script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT_ID}`;
-                script.async = true;
-                script.crossOrigin = "anonymous";
-                script.onload = () => resolve();
-                script.onerror = () => reject(new Error("Failed to load AdSense script"));
-                document.head.appendChild(script);
-            });
-        };
+            // Wait for DOM to be ready
+            await new Promise((resolve) => setTimeout(resolve, 100));
 
-        const initAd = async () => {
-            try {
-                await loadScript();
+            const adElement = adRef.current;
+            const containerElement = containerRef.current;
 
-                // Wait for script to be fully loaded
-                await new Promise((resolve) => setTimeout(resolve, 150));
+            if (!adElement || !containerElement) return;
 
-                // Check if the ad element exists and hasn't been initialized
-                const adElement = adRef.current;
-                if (adElement && !adElement.getAttribute("data-adsbygoogle-status")) {
-                    // Initialize the adsbygoogle array if not exists
-                    window.adsbygoogle = window.adsbygoogle || [];
-                    window.adsbygoogle.push({});
-                    hasInitialized.current = true;
-                    setAdStatus("loaded");
-                }
-            } catch (e) {
-                console.error("AdSense error:", e);
-                setAdStatus("error");
+            // Check if container has actual width
+            const containerWidth = containerElement.offsetWidth;
+            if (containerWidth === 0) {
+                console.warn("AdUnit: Container has 0 width, skipping ad initialization");
+                return;
             }
-        };
 
-        initAd();
-    }, [slotId]);
+            // Check if not already initialized
+            if (adElement.getAttribute("data-adsbygoogle-status")) {
+                hasInitialized.current = true;
+                setAdStatus("loaded");
+                return;
+            }
+
+            // Initialize the ad
+            window.adsbygoogle = window.adsbygoogle || [];
+            window.adsbygoogle.push({});
+            hasInitialized.current = true;
+            setAdStatus("loaded");
+        } catch (e) {
+            console.error("AdSense error:", e);
+            setAdStatus("error");
+        }
+    }, [slotId, loadAdSenseScript]);
+
+    useEffect(() => {
+        if (!slotId || !AD_CLIENT_ID || hasInitialized.current) return;
+
+        // Use IntersectionObserver to only load when visible
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !hasInitialized.current) {
+                        initializeAd();
+                        observer.disconnect();
+                    }
+                });
+            },
+            {
+                rootMargin: "100px", // Load slightly before it's visible
+                threshold: 0,
+            }
+        );
+
+        const container = containerRef.current;
+        if (container) {
+            observer.observe(container);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [slotId, initializeAd]);
 
     // Don't render if no config
     if (!slotId || !AD_CLIENT_ID) {
@@ -110,10 +151,25 @@ export function AdUnit({
     }
 
     // Build ad attributes based on variant
-    const getAdProps = (): Record<string, string | React.CSSProperties> => {
+    const getAdStyle = (): React.CSSProperties => {
+        const baseStyle: React.CSSProperties = {
+            display: "block",
+            width: "100%",
+            minHeight: "100px",
+        };
+
+        if (variant === "in-article") {
+            return {
+                ...baseStyle,
+                textAlign: "center",
+            };
+        }
+
+        return baseStyle;
+    };
+
+    const getAdDataProps = (): Record<string, string> => {
         const baseProps = {
-            className: "adsbygoogle",
-            style: { display: "block" } as React.CSSProperties,
             "data-ad-client": AD_CLIENT_ID as string,
             "data-ad-slot": slotId,
         };
@@ -121,7 +177,6 @@ export function AdUnit({
         if (variant === "in-article") {
             return {
                 ...baseProps,
-                style: { display: "block", textAlign: "center" as const },
                 "data-ad-layout": "in-article",
                 "data-ad-format": "fluid",
             };
@@ -144,6 +199,7 @@ export function AdUnit({
 
     return (
         <div
+            ref={containerRef}
             className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/60 bg-secondary/5 p-4 text-center ${className}`}
             role="region"
             aria-label={label}
@@ -155,7 +211,9 @@ export function AdUnit({
                 <ins
                     ref={adRef}
                     key={uniqueId}
-                    {...getAdProps()}
+                    className="adsbygoogle"
+                    style={getAdStyle()}
+                    {...getAdDataProps()}
                 />
             </div>
         </div>
