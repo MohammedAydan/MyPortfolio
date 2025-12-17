@@ -7,7 +7,6 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import keywords from "@/lib/keywords";
 import type { Metadata } from "next";
-import Script from "next/script"; // ✅ import Script
 import AiChatBox from "@/components/ai-chat-box";
 import { AiChatBoxProvider } from "@/contexts/ai-chat-box-context/ai-chat-box-context-context";
 
@@ -151,7 +150,7 @@ export default async function RootLayout({
             </div>
             
             {/* // new  */}
-            <AiChatBoxProvider>
+            <AiChatBoxProvider locale={locale}>
               <AiChatBox />
             </AiChatBoxProvider>
 
