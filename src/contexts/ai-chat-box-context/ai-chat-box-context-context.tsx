@@ -2,9 +2,9 @@
 
 import { createContext, useContext, useState, useCallback, useRef } from "react";
 import { GoogleGenAI, Type } from "@google/genai";
+import { aiSystemData } from "@/utils/ai-system-data";
 import useSendContact from "@/hooks/use-send-contact";
 import Contact from "@/lib/contact";
-import { aiSystemData } from "@/lib/ai-system-data";
 
 // =====================================
 // Types

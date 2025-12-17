@@ -7,9 +7,8 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import keywords from "@/lib/keywords";
 import type { Metadata } from "next";
-import Script from "next/script"; // ✅ import Script
-import { AiChatBoxProvider } from "@/contexts/ai-chat-box-context/ai-chat-box-context-context";
 import AiChatBox from "@/components/ai-chat-box";
+import { AiChatBoxProvider } from "@/contexts/ai-chat-box-context/ai-chat-box-context-context";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -113,7 +112,7 @@ export default async function RootLayout({
     >
       <head>
         {/* Google Analytics */}
-        <Script
+        {/* <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-6MB4RLG71W"
           strategy="afterInteractive"
         />
@@ -124,7 +123,7 @@ export default async function RootLayout({
             gtag('js', new Date());
             gtag('config', 'G-6MB4RLG71W');
           `}
-        </Script>
+        </Script> */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${isRtl ? "font-cairo" : "font-inter"
@@ -149,11 +148,12 @@ export default async function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
-
+            
             {/* // new  */}
             <AiChatBoxProvider locale={locale}>
               <AiChatBox />
             </AiChatBoxProvider>
+
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
