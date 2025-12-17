@@ -43,13 +43,14 @@ export const metadata: Metadata = {
 const CATEGORIES: Category[] = ["Language", "Framework", "Tool", "Company"];
 
 interface LogosPageProps {
-    searchParams: Promise<{ q?: string; category?: string }>;
+    searchParams: Promise<{ q?: string; category?: string; page?: string }>;
 }
 
 export default async function LogosPage({ searchParams }: LogosPageProps) {
     const params = await searchParams;
     const searchQuery = params.q || "";
     const selectedCategory = params.category || "All";
+    const currentPage = Math.max(1, parseInt(params.page || "1", 10));
 
     // Generate structured data for SEO
     const structuredData = {
@@ -105,6 +106,7 @@ export default async function LogosPage({ searchParams }: LogosPageProps) {
                                 allLogos={logos}
                                 initialQuery={searchQuery}
                                 initialCategory={selectedCategory}
+                                initialPage={currentPage}
                                 categories={CATEGORIES}
                             />
                         </Suspense>

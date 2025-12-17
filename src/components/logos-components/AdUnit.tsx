@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useId } from "react";
+import { useEffect, useRef } from "react";
 
 type AdVariant = "display" | "in-article" | "in-feed";
 
@@ -28,92 +28,42 @@ export function AdUnit({
     variant = "display",
     layoutKey = "",
 }: AdUnitProps) {
-    const adRef = useRef<HTMLModElement>(null);
-    const [adStatus, setAdStatus] = useState<"loading" | "loaded" | "error">("loading");
-    const uniqueId = useId();
-    const hasInitialized = useRef(false);
+    const adPushed = useRef(false);
 
     useEffect(() => {
-        // Don't initialize if already done, no slotId, or no client ID
-        if (hasInitialized.current || !slotId || !AD_CLIENT_ID) return;
+        // Only push once and only if we have the required props
+        if (adPushed.current || !slotId || !AD_CLIENT_ID) return;
 
-        const loadScript = (): Promise<void> => {
-            return new Promise((resolve, reject) => {
-                // Check if script already exists
-                const existingScript = document.querySelector(
-                    'script[src*="pagead2.googlesyndication.com"]'
-                );
-                if (existingScript) {
-                    resolve();
-                    return;
-                }
-
-                const script = document.createElement("script");
-                script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT_ID}`;
-                script.async = true;
-                script.crossOrigin = "anonymous";
-                script.onload = () => resolve();
-                script.onerror = () => reject(new Error("Failed to load AdSense script"));
-                document.head.appendChild(script);
-            });
-        };
-
-        const initAd = async () => {
-            try {
-                await loadScript();
-
-                // Wait for script to be fully loaded
-                await new Promise((resolve) => setTimeout(resolve, 150));
-
-                // Check if the ad element exists and hasn't been initialized
-                const adElement = adRef.current;
-                if (adElement && !adElement.getAttribute("data-adsbygoogle-status")) {
-                    // Initialize the adsbygoogle array if not exists
-                    window.adsbygoogle = window.adsbygoogle || [];
-                    window.adsbygoogle.push({});
-                    hasInitialized.current = true;
-                    setAdStatus("loaded");
-                }
-            } catch (e) {
-                console.error("AdSense error:", e);
-                setAdStatus("error");
-            }
-        };
-
-        initAd();
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            adPushed.current = true;
+        } catch (e) {
+            console.error("Adsense error", e);
+        }
     }, [slotId]);
 
     // Don't render if no config
     if (!slotId || !AD_CLIENT_ID) {
-        return (
-            <div
-                className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/60 bg-secondary/5 p-4 text-center ${className}`}
-            >
-                <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60">
-                    {label}
-                </span>
-                <div className="h-full min-h-[100px] w-full animate-pulse rounded-lg bg-secondary/40 flex items-center justify-center text-xs text-muted-foreground">
-                    Ad Space (Configure AdSense)
-                </div>
-            </div>
-        );
+        return null;
     }
 
-    if (adStatus === "error") {
-        return (
-            <div
-                className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/60 bg-secondary/5 p-4 text-center ${className}`}
-            >
-                <span className="text-xs text-muted-foreground">Ad failed to load</span>
-            </div>
-        );
-    }
+    // Build style based on variant
+    const getAdStyle = (): React.CSSProperties => {
+        if (variant === "in-article") {
+            return {
+                display: "block",
+                textAlign: "center",
+            };
+        }
 
-    // Build ad attributes based on variant
-    const getAdProps = (): Record<string, string | React.CSSProperties> => {
+        return {
+            display: "block",
+        };
+    };
+
+    // Build data props based on variant
+    const getAdDataProps = (): Record<string, string> => {
         const baseProps = {
-            className: "adsbygoogle",
-            style: { display: "block" } as React.CSSProperties,
             "data-ad-client": AD_CLIENT_ID as string,
             "data-ad-slot": slotId,
         };
@@ -121,7 +71,6 @@ export function AdUnit({
         if (variant === "in-article") {
             return {
                 ...baseProps,
-                style: { display: "block", textAlign: "center" as const },
                 "data-ad-layout": "in-article",
                 "data-ad-format": "fluid",
             };
@@ -144,20 +93,20 @@ export function AdUnit({
 
     return (
         <div
-            className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/60 bg-secondary/5 p-4 text-center ${className}`}
+            className={`w-full overflow-hidden ${className}`}
             role="region"
             aria-label={label}
         >
-            <span className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60 block w-full text-center">
-                {label}
-            </span>
-            <div className="w-full min-h-[100px]">
-                <ins
-                    ref={adRef}
-                    key={uniqueId}
-                    {...getAdProps()}
-                />
-            </div>
+            {label && (
+                <span className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/40 block w-full text-center">
+                    {label}
+                </span>
+            )}
+            <ins
+                className="adsbygoogle"
+                style={getAdStyle()}
+                {...getAdDataProps()}
+            />
         </div>
     );
 }
