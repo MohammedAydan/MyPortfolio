@@ -51,12 +51,17 @@ export function AdUnit({
         const loadScript = (): Promise<void> => {
             return new Promise((resolve, reject) => {
                 // Check if script already exists
-                const existingScript = document.querySelector(
+                const existingScript = document.querySelector<HTMLScriptElement>(
                     'script[src*="pagead2.googlesyndication.com"]'
                 );
                 if (existingScript) {
-                    // Add listener with 'once' option to prevent memory leak
-                    existingScript.addEventListener('load', () => resolve(), { once: true });
+                    // If script is already loaded, resolve immediately
+                    if (existingScript.readyState === undefined || existingScript.readyState === 'complete') {
+                        resolve();
+                    } else {
+                        // Otherwise, wait for it to load
+                        existingScript.addEventListener('load', () => resolve(), { once: true });
+                    }
                     return;
                 }
 
