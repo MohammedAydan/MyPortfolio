@@ -9,7 +9,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "cdn.worldvectorlogo.com",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
       },
     ],
   },

@@ -67,10 +67,28 @@ export const logos: Logo[] = [
     },
 ];
 
+/**
+ * Retrieves a logo by its unique slug identifier
+ * @param slug - The unique identifier for the logo (must be a string)
+ * @returns The logo object if found, undefined otherwise
+ */
 export function getLogoBySlug(slug: string): Logo | undefined {
-    return logos.find(logo => logo.slug === slug);
+    // Basic runtime validation of the slug parameter
+    if (typeof slug !== 'string' || !slug.trim()) {
+        return undefined;
+    }
+
+    // Normalize slug: trim whitespace and convert to lowercase to match data
+    const normalizedSlug = slug.trim().toLowerCase();
+    return logos.find(logo => logo.slug.toLowerCase() === normalizedSlug);
 }
 
+/**
+ * Retrieves related logos based on the same category
+ * @param logo - The source logo to find related items for
+ * @param limit - Maximum number of related logos to return (default: 4)
+ * @returns Array of related logos from the same category
+ */
 export function getRelatedLogos(logo: Logo, limit: number = 4): Logo[] {
     return logos
         .filter(l => l.category === logo.category && l.slug !== logo.slug)

@@ -5,6 +5,7 @@ import "../globals.css";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -71,13 +72,14 @@ export default function LogosLayout({ children }: LogosLayoutProps) {
             className="scroll-smooth"
         >
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased ${"font-inter"}`}>
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
                     enableSystem
                     disableTransitionOnChange
                 >
+                    <Toaster richColors position="top-center" />
                     <div className="min-h-screen bg-background">
                         {/* Header */}
                         <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
