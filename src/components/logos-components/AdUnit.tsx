@@ -14,6 +14,15 @@ interface AdUnitProps {
 
 const AD_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
+/**
+ * Validates that the AdSense client ID has the expected format
+ * @param clientId - The client ID to validate
+ * @returns true if valid, false otherwise
+ */
+function isValidAdClientId(clientId: string | undefined): clientId is string {
+    return typeof clientId === 'string' && clientId.startsWith('ca-pub-');
+}
+
 // Declare adsbygoogle type
 declare global {
     interface Window {
@@ -34,8 +43,8 @@ export function AdUnit({
     const hasInitialized = useRef(false);
 
     useEffect(() => {
-        // Don't initialize if already done, no slotId, or no client ID
-        if (hasInitialized.current || !slotId || !AD_CLIENT_ID) return;
+        // Don't initialize if already done, no slotId, or invalid client ID
+        if (hasInitialized.current || !slotId || !isValidAdClientId(AD_CLIENT_ID)) return;
 
         const loadScript = (): Promise<void> => {
             return new Promise((resolve, reject) => {
@@ -44,7 +53,7 @@ export function AdUnit({
                     'script[src*="pagead2.googlesyndication.com"]'
                 );
                 if (existingScript) {
-                    resolve();
+                    existingScript.addEventListener('load', () => resolve());
                     return;
                 }
 
@@ -63,28 +72,34 @@ export function AdUnit({
                 await loadScript();
 
                 // Wait for script to be fully loaded
-                await new Promise((resolve) => setTimeout(resolve, 150));
+                const timeoutId = setTimeout(() => {
+                    // Check if the ad element exists and hasn't been initialized
+                    const adElement = adRef.current;
+                    if (adElement && !adElement.getAttribute("data-adsbygoogle-status")) {
+                        // Initialize the adsbygoogle array if not exists
+                        window.adsbygoogle = window.adsbygoogle || [];
+                        window.adsbygoogle.push({});
+                        hasInitialized.current = true;
+                        setAdStatus("loaded");
+                    }
+                }, 150);
 
-                // Check if the ad element exists and hasn't been initialized
-                const adElement = adRef.current;
-                if (adElement && !adElement.getAttribute("data-adsbygoogle-status")) {
-                    // Initialize the adsbygoogle array if not exists
-                    window.adsbygoogle = window.adsbygoogle || [];
-                    window.adsbygoogle.push({});
-                    hasInitialized.current = true;
-                    setAdStatus("loaded");
-                }
+                // Store timeout ID for cleanup
+                return () => clearTimeout(timeoutId);
             } catch (e) {
                 console.error("AdSense error:", e);
                 setAdStatus("error");
             }
         };
 
-        initAd();
+        const cleanup = initAd();
+        return () => {
+            cleanup?.then(fn => fn?.());
+        };
     }, [slotId]);
 
-    // Don't render if no config
-    if (!slotId || !AD_CLIENT_ID) {
+    // Don't render if no config or invalid client ID
+    if (!slotId || !isValidAdClientId(AD_CLIENT_ID)) {
         return (
             <div
                 className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/60 bg-secondary/5 p-4 text-center ${className}`}
@@ -103,8 +118,12 @@ export function AdUnit({
         return (
             <div
                 className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border/60 bg-secondary/5 p-4 text-center ${className}`}
+                role="alert"
+                aria-live="polite"
             >
-                <span className="text-xs text-muted-foreground">Ad failed to load</span>
+                <span className="text-xs text-muted-foreground">
+                    Unable to load advertisement. Please check your ad blocker settings or try refreshing the page.
+                </span>
             </div>
         );
     }

@@ -120,5 +120,5 @@ export const aiSystemData = `
 
 ---
 
-**© 2024 محمد أيدن - Mohammed Aydan. جميع الحقوق محفوظة - All rights reserved.**
+**© ${new Date().getFullYear()} محمد أيدن - Mohammed Aydan. جميع الحقوق محفوظة - All rights reserved.**
 `;

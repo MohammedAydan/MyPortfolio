@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Logo } from "@/lib/logos-lib/types";
 import { LogoCard } from "./LogoCard";
 import { AdUnit } from "./AdUnit";
@@ -7,24 +8,30 @@ interface LogoGridProps {
 }
 
 const AD_SLOT_IN_FEED = process.env.NEXT_PUBLIC_AD_SLOT_IN_FEED;
-const AD_INTERVAL = 12; // Show ad every 12 logos
+// Number of logos to display between in-feed ad units. The value 12 is a
+// product/UX choice intended to balance ad visibility with content density.
+const AD_INTERVAL = 12;
 
 export function LogoGrid({ logos }: LogoGridProps) {
+    // Memoize items array to prevent unnecessary recalculations on re-renders
+    const items = useMemo(() => {
+        const result: Array<{ type: "logo"; data: Logo } | { type: "ad"; index: number }> = [];
+        
+        logos.forEach((logo, index) => {
+            result.push({ type: "logo", data: logo });
+            
+            // Insert ad after every AD_INTERVAL logos
+            if ((index + 1) % AD_INTERVAL === 0 && index < logos.length - 1) {
+                result.push({ type: "ad", index: Math.floor(index / AD_INTERVAL) });
+            }
+        });
+        
+        return result;
+    }, [logos]);
+
     if (logos.length === 0) {
         return null;
     }
-
-    // Create items array with ads inserted
-    const items: Array<{ type: "logo"; data: Logo } | { type: "ad"; index: number }> = [];
-    
-    logos.forEach((logo, index) => {
-        items.push({ type: "logo", data: logo });
-        
-        // Insert ad after every AD_INTERVAL logos
-        if ((index + 1) % AD_INTERVAL === 0 && index < logos.length - 1) {
-            items.push({ type: "ad", index: Math.floor(index / AD_INTERVAL) });
-        }
-    });
 
     return (
         <div

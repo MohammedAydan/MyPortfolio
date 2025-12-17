@@ -8,9 +8,9 @@ import { Logo, Category } from "@/lib/logos-lib/types";
 import { LogoGrid } from "./LogoGrid";
 import { AdUnit } from "./AdUnit";
 
-const AD_SLOT_MOBILE_TOP = process.env.NEXT_PUBLIC_AD_SLOT_MOBILE_TOP;
-const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP;
-const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM;
+const AD_SLOT_MOBILE_TOP = process.env.NEXT_PUBLIC_AD_SLOT_MOBILE_TOP ?? "";
+const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP ?? "";
+const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM ?? "";
 
 const categoryKeys: Record<string, keyof Translation["filters"]> = {
     All: "all",
@@ -64,7 +64,7 @@ export function LogosPageContent({
                 });
             });
         },
-        [router]
+        [router, startTransition]
     );
 
     const handleSearchChange = (value: string) => {
@@ -79,8 +79,23 @@ export function LogosPageContent({
 
     return (
         <>
+            {/* ARIA live region for announcing filtered results to screen readers */}
+            <div
+                className="sr-only"
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                {filteredLogos.length} logos found
+            </div>
+
             {/* Search Input */}
-            <div className="group relative mb-8 w-full max-w-xl">
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    // Already handled by onChange, but this provides standard form behavior
+                }}
+                className="group relative mb-8 w-full max-w-xl"
+            >
                 <div className="absolute inset-0 rounded-2xl bg-primary/10 blur-xl transition-opacity opacity-0 group-focus-within:opacity-100" />
                 <Search className="absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary" />
                 {isPending && (
@@ -94,7 +109,7 @@ export function LogosPageContent({
                     aria-label="Search logos"
                     className="relative z-10 w-full rounded-2xl border border-input/60 bg-background/80 py-4 pl-12 pr-12 text-base shadow-lg ring-offset-background backdrop-blur-md transition-all placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:border-primary/40 hover:bg-background"
                 />
-            </div>
+            </form>
 
             {/* Category Filters */}
             <nav
@@ -153,7 +168,7 @@ export function LogosPageContent({
                             {searchQuery && (
                                 <span>
                                     {" "}
-                                    for &quot;<span className="font-medium">{searchQuery}</span>
+                                    for &quot;<span className="font-medium">{searchQuery.replace(/[<>]/g, '')}</span>
                                     &quot;
                                 </span>
                             )}

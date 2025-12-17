@@ -1,8 +1,8 @@
-export const t = {
+export const logoTranslations = {
     site: {
         title: 'LogoCatalog',
         description: 'The ultimate collection of SVG, PNG logos for developers and designers.',
-        footer: '© 2024 LogoCatalog. All rights reserved.',
+        footer: `© ${new Date().getFullYear()} LogoCatalog. All rights reserved.`,
     },
     nav: {
         logos: 'Logos',
@@ -26,4 +26,5 @@ export const t = {
     },
 } as const;
 
-export type Translation = typeof t;
+export type Translation = typeof logoTranslations;
+export const t = logoTranslations;

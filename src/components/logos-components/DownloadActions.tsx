@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Download, ImageIcon, FileCode } from "lucide-react";
 import { Logo } from "@/lib/logos-lib/types";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface DownloadActionsProps {
     logo: Logo;
@@ -15,6 +16,9 @@ const PNG_SIZES = [
     { value: 1024, label: "1024px" },
     { value: 2048, label: "2048px" },
 ] as const;
+
+// Canvas padding scale factor - logos are rendered at 80% of canvas size to provide padding
+const CANVAS_PADDING_SCALE = 0.8;
 
 export function DownloadActions({ logo }: DownloadActionsProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,7 +36,7 @@ export function DownloadActions({ logo }: DownloadActionsProps) {
 
             await new Promise<void>((resolve, reject) => {
                 img.onload = () => resolve();
-                img.onerror = () => reject(new Error("Failed to load image"));
+                img.onerror = () => reject(new Error("Image failed to load - this may be due to CORS restrictions"));
             });
 
             const canvas = canvasRef.current;
@@ -47,7 +51,7 @@ export function DownloadActions({ logo }: DownloadActionsProps) {
             ctx.clearRect(0, 0, pngSize, pngSize);
 
             // Calculate scaling to fit while maintaining aspect ratio
-            const scale = Math.min(pngSize / img.width, pngSize / img.height) * 0.8;
+            const scale = Math.min(pngSize / img.width, pngSize / img.height) * CANVAS_PADDING_SCALE;
             const width = img.width * scale;
             const height = img.height * scale;
             const x = (pngSize - width) / 2;
@@ -62,9 +66,17 @@ export function DownloadActions({ logo }: DownloadActionsProps) {
             link.click();
         } catch (error) {
             console.error("PNG download failed:", error);
-            alert(
-                "Could not generate PNG. This might be due to CORS restrictions on the image."
-            );
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+            
+            if (errorMessage.includes("CORS")) {
+                toast.error("Download Failed", {
+                    description: "Could not generate PNG due to cross-origin restrictions. Try downloading the SVG format instead."
+                });
+            } else {
+                toast.error("Download Failed", {
+                    description: "Could not generate PNG. Please try again or download the SVG format."
+                });
+            }
         } finally {
             setIsDownloading(false);
         }
