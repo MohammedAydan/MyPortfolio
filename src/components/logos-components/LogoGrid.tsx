@@ -13,7 +13,8 @@ const AD_SLOT_IN_FEED = process.env.NEXT_PUBLIC_AD_SLOT_IN_FEED;
 const AD_INTERVAL = 12;
 
 export function LogoGrid({ logos }: LogoGridProps) {
-    // Memoize items array to prevent unnecessary recalculations on re-renders
+    // Memoize items array to prevent recalculation when LogoGrid re-renders
+    // due to parent component updates while logos array remains unchanged
     const items = useMemo(() => {
         const result: Array<{ type: "logo"; data: Logo } | { type: "ad"; index: number }> = [];
         

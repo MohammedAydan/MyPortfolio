@@ -55,7 +55,8 @@ export function AdUnit({
                     'script[src*="pagead2.googlesyndication.com"]'
                 );
                 if (existingScript) {
-                    existingScript.addEventListener('load', () => resolve());
+                    // Add listener with 'once' option to prevent memory leak
+                    existingScript.addEventListener('load', () => resolve(), { once: true });
                     return;
                 }
 

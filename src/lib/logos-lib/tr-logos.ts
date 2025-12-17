@@ -27,4 +27,5 @@ export const logoTranslations = {
 } as const;
 
 export type Translation = typeof logoTranslations;
+// Export alias for backwards compatibility
 export const t = logoTranslations;
