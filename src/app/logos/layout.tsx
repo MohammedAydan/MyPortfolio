@@ -5,7 +5,6 @@ import "../globals.css";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
-import Script from "next/script";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -73,12 +72,6 @@ export default function LogosLayout({ children }: LogosLayoutProps) {
         >
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased ${"font-inter"}`}>
-                <Script
-                    id="adsense"
-                    strategy="afterInteractive"
-                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
-                    crossOrigin="anonymous"
-                />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

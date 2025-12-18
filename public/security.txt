@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Policy - Mohammed Aydan Portfolio</title>
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+    <h1>Security Policy</h1>
+    
+    <h2>Content Security Policy</h2>
+    <p>This site implements the following security measures:</p>
+    <ul>
+        <li>HTTPS-only connections</li>
+        <li>Secure headers implementation</li>
+        <li>XSS protection</li>
+        <li>CSRF protection</li>
+    </ul>
+
+    <h2>Reporting Security Issues</h2>
+    <p>If you discover a security vulnerability, please contact us through the contact form on our website.</p>
+
+    <h2>Data Privacy</h2>
+    <p>We respect your privacy and implement industry-standard security practices to protect user data.</p>
+</body>
+</html>

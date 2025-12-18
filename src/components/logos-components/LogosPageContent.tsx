@@ -6,11 +6,6 @@ import { Search, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { t, Translation } from "@/lib/logos-lib/tr-logos";
 import { Logo, Category } from "@/lib/logos-lib/types";
 import { LogoGrid } from "./LogoGrid";
-import { AdUnit } from "./AdUnit";
-
-const AD_SLOT_MOBILE_TOP = process.env.NEXT_PUBLIC_AD_SLOT_MOBILE_TOP;
-const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP;
-const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM;
 
 const ITEMS_PER_PAGE = 24;
 
@@ -139,71 +134,85 @@ export function LogosPageContent({
 
     return (
         <>
-            {/* Search Input */}
-            <div className="group relative mb-8 w-full max-w-xl">
-                <div className="absolute inset-0 rounded-2xl bg-primary/10 blur-xl transition-opacity opacity-0 group-focus-within:opacity-100" />
-                <Search className="absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary" />
+            {/* Enhanced Search Input with Better Accessibility */}
+            <div className="group relative mb-12 w-full max-w-2xl mx-auto">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 blur-2xl opacity-0 transition-opacity duration-500 group-focus-within:opacity-100" aria-hidden="true" />
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 transition-opacity duration-300 group-focus-within:opacity-100" aria-hidden="true" />
+                <label htmlFor="logo-search" className="sr-only">Search logos by name or technology</label>
+                <Search className="absolute left-6 top-1/2 z-10 h-6 w-6 -translate-y-1/2 text-muted-foreground transition-all duration-300 group-focus-within:text-primary group-focus-within:scale-110" aria-hidden="true" />
                 {isPending && (
-                    <Loader2 className="absolute right-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 animate-spin text-primary" />
+                    <Loader2 className="absolute right-6 top-1/2 z-10 h-6 w-6 -translate-y-1/2 animate-spin text-primary" aria-label="Loading search results" />
                 )}
                 <input
+                    id="logo-search"
                     type="search"
                     value={searchQuery}
                     onChange={(e) => handleSearchChange(e.target.value)}
                     placeholder={t.search.placeholder}
-                    aria-label="Search logos"
-                    className="relative z-10 w-full rounded-2xl border border-input/60 bg-background/80 py-4 pl-12 pr-12 text-base shadow-lg ring-offset-background backdrop-blur-md transition-all placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:border-primary/40 hover:bg-background"
+                    aria-label="Search logos by name, technology, or framework"
+                    aria-describedby="search-help"
+                    autoComplete="off"
+                    spellCheck="false"
+                    className="relative z-10 w-full rounded-3xl border border-border/50 bg-background/80 py-5 pl-16 pr-16 text-lg shadow-2xl shadow-black/5 backdrop-blur-xl ring-offset-background transition-all duration-300 placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:shadow-primary/10 hover:border-primary/30 hover:bg-background hover:shadow-xl hover:shadow-primary/5"
                 />
+                <span id="search-help" className="sr-only">Type to filter logos by name, category, or technology</span>
+                {/* Decorative Elements */}
+                <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-primary/40 blur-sm opacity-0 transition-opacity duration-500 group-focus-within:opacity-100" aria-hidden="true" />
+                <div className="absolute -bottom-1 -left-1 h-2 w-2 rounded-full bg-secondary/40 blur-sm opacity-0 transition-opacity duration-700 group-focus-within:opacity-100" aria-hidden="true" />
             </div>
 
-            {/* Category Filters */}
+            {/* Enhanced Category Filters with Accessibility */}
             <nav
-                className="mb-12 flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+                className="mb-16 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
                 role="navigation"
                 aria-label="Filter logos by category"
             >
+                <h2 className="sr-only">Logo Categories</h2>
                 <button
                     onClick={() => handleCategoryChange("All")}
-                    className={`rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
-                        selectedCategory === "All"
-                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                            : "bg-secondary/60 text-secondary-foreground hover:bg-secondary hover:shadow-md"
-                    }`}
                     aria-pressed={selectedCategory === "All"}
+                    aria-label="Show all logo categories"
+                    className={`group relative overflow-hidden rounded-2xl px-6 py-3 text-sm font-bold tracking-wide transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                        selectedCategory === "All"
+                            ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-2xl shadow-primary/30 scale-105"
+                            : "bg-gradient-to-r from-secondary/60 to-secondary/40 text-secondary-foreground hover:from-secondary/80 hover:to-secondary/60 hover:shadow-xl hover:shadow-secondary/20 hover:scale-105"
+                    }`}
                 >
-                    {t.filters.all}
+                    <span className="relative z-10">{t.filters.all}</span>
+                    {selectedCategory === "All" && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-50" aria-hidden="true" />
+                    )}
                 </button>
                 {categories.map((category) => (
                     <button
                         key={category}
                         onClick={() => handleCategoryChange(category)}
-                        className={`rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
-                            selectedCategory === category
-                                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                                : "bg-secondary/60 text-secondary-foreground hover:bg-secondary hover:shadow-md"
-                        }`}
                         aria-pressed={selectedCategory === category}
+                        aria-label={`Filter by ${category} logos`}
+                        className={`group relative overflow-hidden rounded-2xl px-6 py-3 text-sm font-bold tracking-wide transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                            selectedCategory === category
+                                ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-2xl shadow-primary/30 scale-105"
+                                : "bg-gradient-to-r from-secondary/60 to-secondary/40 text-secondary-foreground hover:from-secondary/80 hover:to-secondary/60 hover:shadow-xl hover:shadow-secondary/20 hover:scale-105"
+                        }`}
                     >
-                        {t.filters[categoryKeys[category]] || category}
+                        <span className="relative z-10">{t.filters[categoryKeys[category]] || category}</span>
+                        {selectedCategory === category && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-50" aria-hidden="true" />
+                        )}
                     </button>
                 ))}
             </nav>
 
-            {/* Results Section */}
-            <div className="flex w-full flex-col gap-8 lg:flex-row">
-                <div className="min-h-[400px] flex-1">
-                    {/* Mobile Ad */}
-                    <div className="mb-8 lg:hidden">
-                        <AdUnit
-                            label="Advertisement"
-                            className="min-h-[100px]"
-                            slotId={AD_SLOT_MOBILE_TOP}
-                            variant="display"
-                        />
-                    </div>
-
-                    {/* Results Count */}
-                    <div className="mb-6 flex items-center justify-between">
+            {/* Results Section with Live Region */}
+            <div className="flex w-full flex-col gap-8">
+                <div className="min-h-[400px]">
+                    {/* Results Count with ARIA Live Region */}
+                    <div 
+                        className="mb-6 flex items-center justify-between"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                    >
                         <p className="text-sm text-muted-foreground">
                             Showing{" "}
                             <span className="font-semibold text-foreground">
@@ -234,30 +243,31 @@ export function LogosPageContent({
                         <>
                             <LogoGrid logos={paginatedLogos} />
                             
-                            {/* Pagination */}
+                            {/* Enhanced Pagination with ARIA */}
                             {totalPages > 1 && (
                                 <nav
-                                    className="mt-12 flex items-center justify-center gap-2"
+                                    className="mt-16 flex items-center justify-center gap-3"
                                     role="navigation"
-                                    aria-label="Pagination"
+                                    aria-label="Logo pagination navigation"
                                 >
                                     {/* Previous Button */}
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
-                                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground transition-all hover:bg-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                                        aria-label="Go to previous page"
+                                        aria-label={currentPage === 1 ? "No previous page available" : `Go to page ${currentPage - 1}`}
+                                        className="group flex h-12 w-12 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-r from-background to-background/80 text-muted-foreground shadow-lg backdrop-blur-sm transition-all duration-300 hover:from-secondary/60 hover:to-secondary/40 hover:shadow-xl hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
                                     >
-                                        <ChevronLeft className="h-5 w-5" />
+                                        <ChevronLeft className="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden="true" />
                                     </button>
 
                                     {/* Page Numbers */}
-                                    <div className="flex items-center gap-1">
+                                    <div className="flex items-center gap-2" role="list">
                                         {getPageNumbers().map((page, index) =>
                                             page === "..." ? (
                                                 <span
                                                     key={`ellipsis-${index}`}
-                                                    className="px-2 text-muted-foreground"
+                                                    className="px-4 py-3 text-muted-foreground"
+                                                    aria-hidden="true"
                                                 >
                                                     ...
                                                 </span>
@@ -265,15 +275,18 @@ export function LogosPageContent({
                                                 <button
                                                     key={page}
                                                     onClick={() => handlePageChange(page)}
-                                                    className={`flex h-10 min-w-10 items-center justify-center rounded-xl px-3 text-sm font-medium transition-all ${
-                                                        currentPage === page
-                                                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                                                            : "border border-border bg-background text-muted-foreground hover:bg-secondary hover:text-foreground"
-                                                    }`}
-                                                    aria-label={`Go to page ${page}`}
+                                                    aria-label={currentPage === page ? `Current page, page ${page}` : `Go to page ${page}`}
                                                     aria-current={currentPage === page ? "page" : undefined}
+                                                    className={`group flex h-12 min-w-12 items-center justify-center rounded-2xl px-4 py-3 text-sm font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                                                        currentPage === page
+                                                            ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-2xl shadow-primary/30 scale-110"
+                                                            : "border border-border/50 bg-gradient-to-r from-background to-background/80 text-muted-foreground shadow-lg backdrop-blur-sm hover:from-secondary/60 hover:to-secondary/40 hover:shadow-xl hover:scale-105"
+                                                    }`}
                                                 >
-                                                    {page}
+                                                    <span className="relative z-10">{page}</span>
+                                                    {currentPage === page && (
+                                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/20 to-transparent" aria-hidden="true" />
+                                                    )}
                                                 </button>
                                             )
                                         )}
@@ -283,21 +296,23 @@ export function LogosPageContent({
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage === totalPages}
-                                        className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground transition-all hover:bg-secondary hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                                        aria-label="Go to next page"
+                                        aria-label={currentPage === totalPages ? "No next page available" : `Go to page ${currentPage + 1}`}
+                                        className="group flex h-12 w-12 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-r from-background to-background/80 text-muted-foreground shadow-lg backdrop-blur-sm transition-all duration-300 hover:from-secondary/60 hover:to-secondary/40 hover:shadow-xl hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
                                     >
-                                        <ChevronRight className="h-5 w-5" />
+                                        <ChevronRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
                                     </button>
                                 </nav>
                             )}
                         </>
                     ) : (
-                        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/5 py-20 text-center">
-                            <div className="mb-4 rounded-full bg-secondary/20 p-4">
-                                <Search className="h-8 w-8 text-muted-foreground/40" />
+                        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-border/50 bg-gradient-to-br from-secondary/5 via-secondary/10 to-secondary/5 py-24 px-8 text-center shadow-2xl backdrop-blur-sm" role="status" aria-live="polite">
+                            <div className="mb-6 rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/10 p-6 shadow-lg">
+                                <Search className="h-12 w-12 text-muted-foreground/60 animate-pulse" aria-hidden="true" />
                             </div>
-                            <h3 className="mb-2 text-lg font-semibold">No logos found</h3>
-                            <p className="text-muted-foreground">
+                            <h3 className="mb-4 text-2xl font-bold tracking-tight text-foreground">
+                                No logos found
+                            </h3>
+                            <p className="mb-8 max-w-md text-lg text-muted-foreground">
                                 {t.search.noResults}
                             </p>
                             <button
@@ -307,31 +322,15 @@ export function LogosPageContent({
                                     setCurrentPage(1);
                                     updateURL("All", "", 1);
                                 }}
-                                className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                                aria-label="Clear all search filters and show all logos"
+                                className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-primary/90 px-8 py-4 text-sm font-bold text-primary-foreground shadow-2xl shadow-primary/30 transition-all duration-300 hover:from-primary/90 hover:to-primary hover:shadow-3xl hover:shadow-primary/40 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                             >
-                                Clear filters
+                                <span>Clear filters</span>
+                                <div className="h-2 w-2 rounded-full bg-white/60 animate-pulse" aria-hidden="true" />
                             </button>
                         </div>
                     )}
                 </div>
-
-                {/* Sidebar Ads */}
-                <aside className="hidden w-72 flex-none space-y-6 lg:block">
-                    <div className="sticky top-24 space-y-6">
-                        <AdUnit
-                            label="Advertisement"
-                            className="min-h-[400px]"
-                            slotId={AD_SLOT_SIDEBAR_TOP}
-                            variant="display"
-                        />
-                        <AdUnit
-                            label="Sponsored"
-                            className="min-h-[250px]"
-                            slotId={AD_SLOT_SIDEBAR_BOTTOM}
-                            variant="display"
-                        />
-                    </div>
-                </aside>
             </div>
         </>
     );

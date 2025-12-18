@@ -6,12 +6,8 @@ import { ArrowLeft, ExternalLink, Download, Sparkles } from "lucide-react";
 import { t } from "@/lib/logos-lib/tr-logos";
 import { Logo } from "@/lib/logos-lib/types";
 import { getLogoBySlug, getRelatedLogos, logos } from "@/lib/logos-lib/logos-data";
-import { AdUnit } from "@/components/logos-components/AdUnit";
 import { DownloadActions } from "@/components/logos-components/DownloadActions";
-
-const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP;
-const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM;
-const AD_SLOT_DETAIL_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_DETAIL_BOTTOM;
+import Script from "next/script";
 
 interface LogoDetailPageProps {
     params: Promise<{ slug: string }>;
@@ -24,7 +20,7 @@ export async function generateStaticParams() {
     }));
 }
 
-// Generate dynamic metadata for SEO
+// Enhanced SEO metadata generation for individual logos
 export async function generateMetadata({
     params,
 }: LogoDetailPageProps): Promise<Metadata> {
@@ -33,39 +29,77 @@ export async function generateMetadata({
 
     if (!logo) {
         return {
-            title: "Logo Not Found",
+            title: "Logo Not Found | Logo Collection",
+            description: "The requested logo could not be found. Browse our collection of premium tech logos.",
         };
     }
 
+    const logoTitle = `${logo.name} Logo | Free SVG & PNG Download | ${t.site.title}`;
+    const logoDescription = `Download the official ${logo.name} logo in high-quality SVG and PNG formats. ${logo.description || `Perfect for developers, designers, and ${logo.category.toLowerCase()} projects.`} Free download with transparent background.`;
+
     return {
-        title: `${logo.name} Logo | Download Free SVG & PNG - ${t.site.title}`,
-        description: `Download the official ${logo.name} logo in SVG and PNG formats. ${logo.description || `High-quality ${logo.name} logo for developers and designers.`}`,
+        title: logoTitle,
+        description: logoDescription,
         keywords: [
+            // Brand specific
             `${logo.name} logo`,
-            `${logo.name} svg`,
-            `${logo.name} png`,
+            `${logo.name} logo svg`,
+            `${logo.name} logo png`,
             `${logo.name} icon`,
+            `${logo.name} brand`,
+            // Download specific
             `download ${logo.name} logo`,
+            `free ${logo.name} logo`,
+            `${logo.name} logo transparent`,
+            `${logo.name} vector logo`,
+            // Category specific
             `${logo.category.toLowerCase()} logo`,
-            "free logo download",
+            `${logo.category.toLowerCase()} icon`,
+            // Use cases
+            `${logo.name} logo for website`,
+            `${logo.name} logo for app`,
+            `high quality ${logo.name} logo`,
+            "official brand logo",
+            "free tech logo download",
         ],
+        authors: [{ name: "Logo Collection", url: "/logos" }],
+        creator: logo.name,
+        publisher: "Logo Collection Platform",
+        category: logo.category,
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                "max-video-preview": -1,
+                "max-image-preview": "large",
+                "max-snippet": -1,
+            },
+        },
         openGraph: {
-            title: `${logo.name} Logo - ${t.site.title}`,
-            description: logo.description || `Download the official ${logo.name} logo`,
+            title: `${logo.name} Logo | Free Download`,
+            description: logoDescription,
+            type: "website",
+            siteName: t.site.title,
+            locale: "en_US",
+            url: `/logos/${slug}`,
             images: [
                 {
                     url: logo.url,
-                    width: 512,
-                    height: 512,
-                    alt: `${logo.name} logo`,
+                    width: 800,
+                    height: 800,
+                    alt: `${logo.name} official logo`,
+                    type: "image/svg+xml",
                 },
             ],
-            type: "website",
         },
         twitter: {
             card: "summary_large_image",
-            title: `${logo.name} Logo`,
-            description: logo.description || `Download the official ${logo.name} logo`,
+            site: "@logocollection",
+            creator: "@logocollection",
+            title: `${logo.name} Logo | Free Download`,
+            description: logoDescription,
             images: [logo.url],
         },
         alternates: {
@@ -84,144 +118,252 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
 
     const relatedLogos = getRelatedLogos(logo, 4);
 
-    // Structured data for SEO
+    // Enhanced structured data for better SEO
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "ImageObject",
+        "@id": `https://mohammed-aydan.me/logos/${slug}`,
         name: `${logo.name} Logo`,
-        description: logo.description,
+        description: logo.description || `Official ${logo.name} logo in high-quality SVG and PNG formats`,
         contentUrl: logo.url,
         thumbnailUrl: logo.url,
         encodingFormat: "image/svg+xml",
+        width: "800",
+        height: "800",
+        uploadDate: "2024-01-01",
+        license: "https://creativecommons.org/publicdomain/zero/1.0/",
+        acquireLicensePage: `https://mohammed-aydan.me/logos/${slug}`,
         creator: {
             "@type": "Organization",
             name: logo.name,
-            url: logo.website,
+            url: logo.website || `https://mohammed-aydan.me/logos/${slug}`,
+            logo: {
+                "@type": "ImageObject",
+                url: logo.url,
+            },
         },
+        about: {
+            "@type": "Thing",
+            name: logo.category,
+            description: `${logo.name} is a ${logo.category.toLowerCase()}`,
+        },
+        isPartOf: {
+            "@type": "CollectionPage",
+            name: t.site.title,
+            url: "https://mohammed-aydan.me/logos",
+        },
+        keywords: `${logo.name} logo, ${logo.name} svg, ${logo.name} png, ${logo.category} logo, free logo download`,
+    };
+
+    // Breadcrumb structured data
+    const breadcrumbData = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://mohammed-aydan.me",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Logos",
+                item: "https://mohammed-aydan.me/logos",
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                name: logo.name,
+                item: `https://mohammed-aydan.me/logos/${slug}`,
+            },
+        ],
+    };
+
+    // Product structured data for better discoverability
+    const productData = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: `${logo.name} Logo`,
+        description: logo.description || `Official ${logo.name} logo`,
+        image: logo.url,
+        brand: {
+            "@type": "Brand",
+            name: logo.name,
+        },
+        offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url: `https://mohammed-aydan.me/logos/${slug}`,
+        },
+        category: logo.category,
     };
 
     return (
         <>
-            {/* Structured Data for SEO */}
-            <script
+            {/* Enhanced Structured Data for SEO */}
+            <Script
+                id={`logo-${slug}`}
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                strategy="beforeInteractive"
+            />
+            <Script
+                id={`breadcrumb-${slug}`}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+                strategy="beforeInteractive"
+            />
+            <Script
+                id={`product-${slug}`}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productData) }}
+                strategy="beforeInteractive"
             />
 
-            <main className="min-h-screen bg-gradient-to-b from-background via-background to-secondary/5">
-                <div className="container mx-auto max-w-screen-2xl px-4 py-8 md:px-8">
-                    {/* Breadcrumb Navigation */}
-                    <nav className="mb-8" aria-label="Breadcrumb">
+            <main className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
+                <div className="container mx-auto max-w-screen-2xl px-4 py-12 md:px-8">
+                    {/* Enhanced Breadcrumb Navigation */}
+                    <nav className="mb-10" aria-label="Breadcrumb">
                         <Link
                             href="/logos"
-                            className="group inline-flex items-center gap-2 rounded-lg bg-secondary/50 px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-secondary hover:text-foreground"
+                            className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-secondary/60 to-secondary/40 px-6 py-3 text-sm font-bold text-secondary-foreground shadow-lg backdrop-blur-sm transition-all duration-300 hover:from-secondary/80 hover:to-secondary hover:shadow-xl hover:scale-105"
                         >
-                            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                            Back to all logos
+                            <ArrowLeft className="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" />
+                            <span>Back to all logos</span>
+                            <div className="h-2 w-2 rounded-full bg-secondary-foreground/30 animate-pulse" />
                         </Link>
                     </nav>
 
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                         {/* Main Content */}
                         <article className="lg:col-span-2 space-y-8">
-                            {/* Logo Preview Card */}
-                            <div className="group relative overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
-                                {/* Decorative Elements */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/10" />
-                                <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
-                                <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-secondary/20 blur-3xl" />
+                            {/* Enhanced Logo Preview Card */}
+                            <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-card/50 shadow-2xl shadow-black/10">
+                                {/* Enhanced Decorative Elements */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/15" />
+                                <div className="absolute -right-32 -top-32 h-64 w-64 rounded-full bg-primary/15 blur-3xl animate-pulse" />
+                                <div className="absolute -bottom-32 -left-32 h-64 w-64 rounded-full bg-secondary/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-accent/5 blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
 
-                                {/* Checkered Background Pattern */}
-                                <div className="absolute inset-0 bg-[linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%,transparent_75%,hsl(var(--muted))_75%,hsl(var(--muted))),linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%,transparent_75%,hsl(var(--muted))_75%,hsl(var(--muted)))] bg-[length:24px_24px] bg-[position:0_0,12px_12px] opacity-[0.03]" />
+                                {/* Enhanced Checkered Background */}
+                                <div className="absolute inset-0 bg-[linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%,transparent_75%,hsl(var(--muted))_75%,hsl(var(--muted))),linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%,transparent_75%,hsl(var(--muted))_75%,hsl(var(--muted)))] bg-[length:32px_32px] bg-[position:0_0,16px_16px] opacity-[0.02]" />
 
-                                <div className="relative flex min-h-[350px] items-center justify-center p-12 md:min-h-[450px] md:p-16">
+                                {/* Size Preview Options */}
+                                <div className="absolute top-6 left-6 z-20 flex gap-2">
+                                    {['Small', 'Medium', 'Large'].map((size) => (
+                                        <span
+                                            key={size}
+                                            className="rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm transition-all hover:bg-background hover:text-foreground cursor-default"
+                                        >
+                                            {size}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <div className="relative flex min-h-[400px] items-center justify-center p-12 md:min-h-[500px] md:p-16">
+                                    {/* Logo Glow Effect */}
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="h-80 w-80 rounded-full bg-primary/20 blur-3xl opacity-0 transition-opacity duration-1000 group-hover:opacity-100" />
+                                    </div>
+
                                     <Image
                                         src={logo.url}
                                         alt={`${logo.name} logo`}
-                                        width={300}
-                                        height={300}
-                                        className="max-h-[280px] max-w-[80%] object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                                        width={400}
+                                        height={400}
+                                        className="relative max-h-[320px] max-w-[85%] object-contain drop-shadow-2xl transition-all duration-700 group-hover:scale-110 group-hover:drop-shadow-[0_0_40px_rgba(0,0,0,0.15)]"
                                         priority
                                         unoptimized
                                     />
+
+                                    {/* Floating Elements */}
+                                    <div className="absolute top-8 right-8 h-2 w-2 rounded-full bg-primary/60 animate-bounce" style={{ animationDelay: '0.5s' }} />
+                                    <div className="absolute bottom-12 left-12 h-3 w-3 rounded-full bg-secondary/60 animate-bounce" style={{ animationDelay: '1s' }} />
+                                    <div className="absolute top-1/3 right-16 h-1.5 w-1.5 rounded-full bg-accent/60 animate-bounce" style={{ animationDelay: '1.5s' }} />
                                 </div>
                             </div>
 
-                            {/* Logo Information */}
-                            <div className="space-y-6">
-                                <header>
-                                    <div className="mb-3 flex items-center gap-3">
-                                        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                                            <Sparkles className="h-3 w-3" />
+                            {/* Enhanced Logo Information */}
+                            <div className="space-y-8">
+                                <header className="space-y-4">
+                                    <div className="flex flex-wrap items-center gap-4">
+                                        <span className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary/15 to-primary/10 px-4 py-2 text-sm font-bold text-primary shadow-lg">
+                                            <Sparkles className="h-4 w-4 animate-pulse" />
                                             {logo.category}
                                         </span>
+                                        <span className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-secondary/15 to-secondary/10 px-4 py-2 text-sm font-bold text-secondary-foreground shadow-lg">
+                                            <Download className="h-4 w-4" />
+                                            Free Download
+                                        </span>
                                     </div>
-                                    <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                                        {logo.name}
+                                    <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+                                        <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">
+                                            {logo.name}
+                                        </span>
                                     </h1>
                                     {logo.description && (
-                                        <p className="text-lg text-muted-foreground sm:text-xl">
+                                        <p className="text-xl leading-relaxed text-muted-foreground sm:text-2xl max-w-3xl">
                                             {logo.description}
                                         </p>
                                     )}
                                 </header>
 
-                                {/* Website Link */}
+                                {/* Enhanced Website Link */}
                                 {logo.website && (
                                     <a
                                         href={logo.website}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 rounded-lg bg-secondary/50 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+                                        className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-secondary/60 to-secondary/40 px-6 py-4 text-sm font-bold text-secondary-foreground shadow-lg backdrop-blur-sm transition-all duration-300 hover:from-secondary/80 hover:to-secondary hover:shadow-xl hover:scale-105"
                                     >
-                                        <ExternalLink className="h-4 w-4" />
+                                        <ExternalLink className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
                                         Visit official website
+                                        <div className="h-2 w-2 rounded-full bg-secondary-foreground/30 animate-pulse" />
                                     </a>
                                 )}
 
-                                {/* Download Section */}
-                                <section className="rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm">
-                                    <h2 className="mb-6 flex items-center gap-2 text-lg font-semibold">
-                                        <Download className="h-5 w-5 text-primary" />
+                                {/* Enhanced Download Section */}
+                                <section className="rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-card/50 p-8 shadow-2xl backdrop-blur-sm">
+                                    <h2 className="mb-8 flex items-center gap-3 text-2xl font-bold">
+                                        <Download className="h-6 w-6 text-primary" />
                                         Download Options
+                                        <div className="h-2 w-2 rounded-full bg-primary/60 animate-pulse" />
                                     </h2>
                                     <DownloadActions logo={logo} />
                                 </section>
                             </div>
                         </article>
 
-                        {/* Sidebar */}
+                        {/* Enhanced Sidebar */}
                         <aside className="space-y-8">
-                            {/* Top Ad */}
-                            <AdUnit
-                                label="Advertisement"
-                                className="min-h-[300px]"
-                                slotId={AD_SLOT_SIDEBAR_TOP}
-                                variant="display"
-                            />
-
-                            {/* Related Logos */}
+                            {/* Enhanced Related Logos */}
                             {relatedLogos.length > 0 && (
-                                <section className="rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm">
-                                    <h2 className="mb-4 text-lg font-semibold">
+                                <section className="rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-card/50 p-6 shadow-2xl backdrop-blur-sm">
+                                    <h2 className="mb-6 flex items-center gap-3 text-xl font-bold">
+                                        <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                                         Related {logo.category}s
+                                        <div className="h-2 w-2 rounded-full bg-primary/60 animate-pulse" />
                                     </h2>
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-2 gap-4">
                                         {relatedLogos.map((related: Logo) => (
                                             <Link
                                                 key={related.slug}
                                                 href={`/logos/${related.slug}`}
-                                                className="group flex h-28 flex-col items-center justify-center gap-2 rounded-xl border border-border/50 bg-background p-4 transition-all hover:border-primary/50 hover:shadow-lg"
+                                                className="group flex h-32 flex-col items-center justify-center gap-3 rounded-2xl border border-border/50 bg-gradient-to-br from-background to-background/80 p-4 shadow-lg backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:scale-105"
                                             >
                                                 <Image
                                                     src={related.url}
                                                     alt={`${related.name} logo`}
-                                                    width={40}
-                                                    height={40}
-                                                    className="max-h-10 object-contain transition-transform group-hover:scale-110"
+                                                    width={48}
+                                                    height={48}
+                                                    className="max-h-12 max-w-12 object-contain transition-all duration-300 group-hover:scale-125 group-hover:drop-shadow-lg"
                                                     unoptimized
                                                 />
-                                                <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">
+                                                <span className="text-center text-xs font-bold text-muted-foreground transition-colors duration-300 group-hover:text-primary line-clamp-2">
                                                     {related.name}
                                                 </span>
                                             </Link>
@@ -229,27 +371,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                                     </div>
                                 </section>
                             )}
-
-                            {/* Bottom Sticky Ad */}
-                            <div className="sticky top-24">
-                                <AdUnit
-                                    label="Sponsored"
-                                    className="min-h-[250px]"
-                                    slotId={AD_SLOT_SIDEBAR_BOTTOM}
-                                    variant="display"
-                                />
-                            </div>
                         </aside>
-                    </div>
-
-                    {/* Bottom Ad */}
-                    <div className="mt-16">
-                        <AdUnit
-                            label="Sponsored Content"
-                            className="min-h-[120px]"
-                            slotId={AD_SLOT_DETAIL_BOTTOM}
-                            variant="in-article"
-                        />
                     </div>
                 </div>
             </main>

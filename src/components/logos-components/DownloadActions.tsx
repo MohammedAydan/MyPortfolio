@@ -71,41 +71,49 @@ export function DownloadActions({ logo }: DownloadActionsProps) {
     }
 
     return (
-        <div className="space-y-6">
-            {/* SVG Download */}
-            <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                    <FileCode className="h-4 w-4" />
-                    SVG Vector Format
+        <div className="space-y-8">
+            {/* Enhanced SVG Download */}
+            <div className="group space-y-4 rounded-2xl border border-border/50 bg-gradient-to-br from-card to-card/50 p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-primary/20">
+                <div className="flex items-center gap-3">
+                    <div className="rounded-xl bg-primary/10 p-2">
+                        <FileCode className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-foreground">SVG Vector Format</h3>
+                        <p className="text-sm text-muted-foreground">Perfect for any size, scalable</p>
+                    </div>
                 </div>
                 <Link
                     href={logo.url}
                     download={`${logo.slug}.svg`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30"
+                    className="group/btn flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-primary to-primary/90 py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:from-primary/90 hover:to-primary hover:shadow-xl hover:shadow-primary/30 hover:scale-105"
                 >
-                    <Download className="h-4 w-4" />
+                    <Download className="h-5 w-5 transition-transform duration-200 group-hover/btn:scale-110" />
                     Download SVG
+                    <div className="ml-auto h-2 w-2 rounded-full bg-white/30 animate-pulse" />
                 </Link>
-                <p className="text-xs text-muted-foreground">
-                    Scalable vector format - perfect for any size
-                </p>
             </div>
 
-            <div className="h-px bg-border" />
+            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
-            {/* PNG Download */}
-            <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                    <ImageIcon className="h-4 w-4" />
-                    PNG Raster Format
+            {/* Enhanced PNG Download */}
+            <div className="group space-y-4 rounded-2xl border border-border/50 bg-gradient-to-br from-card to-card/50 p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-secondary/20">
+                <div className="flex items-center gap-3">
+                    <div className="rounded-xl bg-secondary/10 p-2">
+                        <ImageIcon className="h-5 w-5 text-secondary-foreground" />
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-foreground">PNG Raster Format</h3>
+                        <p className="text-sm text-muted-foreground">Choose your preferred resolution</p>
+                    </div>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                     <select
                         value={pngSize}
                         onChange={(e) => setPngSize(Number(e.target.value))}
-                        className="flex-1 rounded-xl border border-input bg-background px-4 py-3 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                        className="flex-1 rounded-xl border border-input/60 bg-background/80 px-4 py-4 text-sm font-medium ring-offset-background backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 hover:border-secondary/40 hover:bg-background"
                         aria-label="Select PNG size"
                     >
                         {PNG_SIZES.map((size) => (
@@ -117,19 +125,25 @@ export function DownloadActions({ logo }: DownloadActionsProps) {
                     <button
                         onClick={downloadPng}
                         disabled={isDownloading}
-                        className="flex items-center justify-center gap-2 rounded-xl border border-input bg-background px-6 py-3 text-sm font-semibold transition-all hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex items-center justify-center gap-3 rounded-xl border border-input/60 bg-gradient-to-r from-secondary to-secondary/80 px-6 py-4 text-sm font-bold transition-all duration-300 hover:from-secondary/80 hover:to-secondary hover:shadow-lg hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {isDownloading ? (
-                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                            <div className="flex items-center gap-2">
+                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                <span>Generating...</span>
+                            </div>
                         ) : (
-                            <Download className="h-4 w-4" />
+                            <>
+                                <Download className="h-4 w-4" />
+                                PNG
+                            </>
                         )}
-                        PNG
                     </button>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                    Choose your preferred resolution for PNG export
-                </p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+                    High quality export with transparent background
+                </div>
             </div>
 
             {/* Hidden Canvas */}
