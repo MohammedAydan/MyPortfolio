@@ -6,12 +6,7 @@ import { ArrowLeft, ExternalLink, Download, Sparkles } from "lucide-react";
 import { t } from "@/lib/logos-lib/tr-logos";
 import { Logo } from "@/lib/logos-lib/types";
 import { getLogoBySlug, getRelatedLogos, logos } from "@/lib/logos-lib/logos-data";
-import { AdUnit } from "@/components/logos-components/AdUnit";
 import { DownloadActions } from "@/components/logos-components/DownloadActions";
-
-const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP;
-const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM;
-const AD_SLOT_DETAIL_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_DETAIL_BOTTOM;
 
 interface LogoDetailPageProps {
     params: Promise<{ slug: string }>;
@@ -192,14 +187,6 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
 
                         {/* Sidebar */}
                         <aside className="space-y-8">
-                            {/* Top Ad */}
-                            <AdUnit
-                                label="Advertisement"
-                                className="min-h-[300px]"
-                                slotId={AD_SLOT_SIDEBAR_TOP}
-                                variant="display"
-                            />
-
                             {/* Related Logos */}
                             {relatedLogos.length > 0 && (
                                 <section className="rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm">
@@ -229,27 +216,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                                     </div>
                                 </section>
                             )}
-
-                            {/* Bottom Sticky Ad */}
-                            <div className="sticky top-24">
-                                <AdUnit
-                                    label="Sponsored"
-                                    className="min-h-[250px]"
-                                    slotId={AD_SLOT_SIDEBAR_BOTTOM}
-                                    variant="display"
-                                />
-                            </div>
                         </aside>
-                    </div>
-
-                    {/* Bottom Ad */}
-                    <div className="mt-16">
-                        <AdUnit
-                            label="Sponsored Content"
-                            className="min-h-[120px]"
-                            slotId={AD_SLOT_DETAIL_BOTTOM}
-                            variant="in-article"
-                        />
                     </div>
                 </div>
             </main>

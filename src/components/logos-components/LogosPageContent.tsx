@@ -6,11 +6,6 @@ import { Search, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { t, Translation } from "@/lib/logos-lib/tr-logos";
 import { Logo, Category } from "@/lib/logos-lib/types";
 import { LogoGrid } from "./LogoGrid";
-import { AdUnit } from "./AdUnit";
-
-const AD_SLOT_MOBILE_TOP = process.env.NEXT_PUBLIC_AD_SLOT_MOBILE_TOP;
-const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP;
-const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM;
 
 const ITEMS_PER_PAGE = 24;
 
@@ -190,18 +185,8 @@ export function LogosPageContent({
             </nav>
 
             {/* Results Section */}
-            <div className="flex w-full flex-col gap-8 lg:flex-row">
-                <div className="min-h-[400px] flex-1">
-                    {/* Mobile Ad */}
-                    <div className="mb-8 lg:hidden">
-                        <AdUnit
-                            label="Advertisement"
-                            className="min-h-[100px]"
-                            slotId={AD_SLOT_MOBILE_TOP}
-                            variant="display"
-                        />
-                    </div>
-
+            <div className="flex w-full flex-col gap-8">
+                <div className="min-h-[400px]">
                     {/* Results Count */}
                     <div className="mb-6 flex items-center justify-between">
                         <p className="text-sm text-muted-foreground">
@@ -314,24 +299,6 @@ export function LogosPageContent({
                         </div>
                     )}
                 </div>
-
-                {/* Sidebar Ads */}
-                <aside className="hidden w-72 flex-none space-y-6 lg:block">
-                    <div className="sticky top-24 space-y-6">
-                        <AdUnit
-                            label="Advertisement"
-                            className="min-h-[400px]"
-                            slotId={AD_SLOT_SIDEBAR_TOP}
-                            variant="display"
-                        />
-                        <AdUnit
-                            label="Sponsored"
-                            className="min-h-[250px]"
-                            slotId={AD_SLOT_SIDEBAR_BOTTOM}
-                            variant="display"
-                        />
-                    </div>
-                </aside>
             </div>
         </>
     );
