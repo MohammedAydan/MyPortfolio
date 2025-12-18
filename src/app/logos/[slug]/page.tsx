@@ -6,12 +6,7 @@ import { ArrowLeft, ExternalLink, Download, Sparkles } from "lucide-react";
 import { t } from "@/lib/logos-lib/tr-logos";
 import { Logo } from "@/lib/logos-lib/types";
 import { getLogoBySlug, getRelatedLogos, logos } from "@/lib/logos-lib/logos-data";
-import { AdUnit } from "@/components/logos-components/AdUnit";
 import { DownloadActions } from "@/components/logos-components/DownloadActions";
-
-const AD_SLOT_SIDEBAR_TOP = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_TOP;
-const AD_SLOT_SIDEBAR_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_BOTTOM;
-const AD_SLOT_DETAIL_BOTTOM = process.env.NEXT_PUBLIC_AD_SLOT_DETAIL_BOTTOM;
 
 interface LogoDetailPageProps {
     params: Promise<{ slug: string }>;
@@ -121,9 +116,9 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                         </Link>
                     </nav>
 
-                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-8">
                         {/* Main Content */}
-                        <article className="lg:col-span-2 space-y-8">
+                        <article className="space-y-8">
                             {/* Logo Preview Card */}
                             <div className="group relative overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
                                 {/* Decorative Elements */}
@@ -188,17 +183,6 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                                     <DownloadActions logo={logo} />
                                 </section>
                             </div>
-                        </article>
-
-                        {/* Sidebar */}
-                        <aside className="space-y-8">
-                            {/* Top Ad */}
-                            <AdUnit
-                                label="Advertisement"
-                                className="min-h-[300px]"
-                                slotId={AD_SLOT_SIDEBAR_TOP}
-                                variant="display"
-                            />
 
                             {/* Related Logos */}
                             {relatedLogos.length > 0 && (
@@ -206,7 +190,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                                     <h2 className="mb-4 text-lg font-semibold">
                                         Related {logo.category}s
                                     </h2>
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                                         {relatedLogos.map((related: Logo) => (
                                             <Link
                                                 key={related.slug}
@@ -229,27 +213,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                                     </div>
                                 </section>
                             )}
-
-                            {/* Bottom Sticky Ad */}
-                            <div className="sticky top-24">
-                                <AdUnit
-                                    label="Sponsored"
-                                    className="min-h-[250px]"
-                                    slotId={AD_SLOT_SIDEBAR_BOTTOM}
-                                    variant="display"
-                                />
-                            </div>
-                        </aside>
-                    </div>
-
-                    {/* Bottom Ad */}
-                    <div className="mt-16">
-                        <AdUnit
-                            label="Sponsored Content"
-                            className="min-h-[120px]"
-                            slotId={AD_SLOT_DETAIL_BOTTOM}
-                            variant="in-article"
-                        />
+                        </article>
                     </div>
                 </div>
             </main>
