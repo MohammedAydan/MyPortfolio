@@ -1,8 +1,9 @@
 // app/sitemap.ts
 import { MetadataRoute } from 'next';
+import { logos } from '@/lib/logos-lib/logos-data';
 
 const BASE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://mohammed-aydan.me';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     // Main paths
@@ -49,5 +50,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
         })
     );
 
-    return [...pages, ...sectionLinks];
+    // Logos main page
+    const logosMainPage = {
+        url: `${BASE_URL}/logos`,
+        lastModified: new Date(),
+        changeFrequency: 'daily' as const,
+        priority: 0.9,
+    };
+
+    // Individual logo pages
+    const logoPages = logos.map((logo) => ({
+        url: `${BASE_URL}/logos/${logo.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+    }));
+
+    return [...pages, ...sectionLinks, logosMainPage, ...logoPages];
 }

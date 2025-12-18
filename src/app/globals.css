@@ -161,3 +161,24 @@
   direction: ltr;
   text-align: left;
 }
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Disable specific animations in logos section */
+  .animate-pulse,
+  .animate-spin,
+  .animate-in,
+  .fade-in,
+  .slide-in-from-bottom-4 {
+    animation: none !important;
+  }
+}

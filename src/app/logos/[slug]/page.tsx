@@ -20,7 +20,7 @@ export async function generateStaticParams() {
     }));
 }
 
-// Generate dynamic metadata for SEO
+// Enhanced SEO metadata generation for individual logos
 export async function generateMetadata({
     params,
 }: LogoDetailPageProps): Promise<Metadata> {
@@ -29,39 +29,77 @@ export async function generateMetadata({
 
     if (!logo) {
         return {
-            title: "Logo Not Found",
+            title: "Logo Not Found | Logo Collection",
+            description: "The requested logo could not be found. Browse our collection of premium tech logos.",
         };
     }
 
+    const logoTitle = `${logo.name} Logo | Free SVG & PNG Download | ${t.site.title}`;
+    const logoDescription = `Download the official ${logo.name} logo in high-quality SVG and PNG formats. ${logo.description || `Perfect for developers, designers, and ${logo.category.toLowerCase()} projects.`} Free download with transparent background.`;
+
     return {
-        title: `${logo.name} Logo | Download Free SVG & PNG - ${t.site.title}`,
-        description: `Download the official ${logo.name} logo in SVG and PNG formats. ${logo.description || `High-quality ${logo.name} logo for developers and designers.`}`,
+        title: logoTitle,
+        description: logoDescription,
         keywords: [
+            // Brand specific
             `${logo.name} logo`,
-            `${logo.name} svg`,
-            `${logo.name} png`,
+            `${logo.name} logo svg`,
+            `${logo.name} logo png`,
             `${logo.name} icon`,
+            `${logo.name} brand`,
+            // Download specific
             `download ${logo.name} logo`,
+            `free ${logo.name} logo`,
+            `${logo.name} logo transparent`,
+            `${logo.name} vector logo`,
+            // Category specific
             `${logo.category.toLowerCase()} logo`,
-            "free logo download",
+            `${logo.category.toLowerCase()} icon`,
+            // Use cases
+            `${logo.name} logo for website`,
+            `${logo.name} logo for app`,
+            `high quality ${logo.name} logo`,
+            "official brand logo",
+            "free tech logo download",
         ],
+        authors: [{ name: "Logo Collection", url: "/logos" }],
+        creator: logo.name,
+        publisher: "Logo Collection Platform",
+        category: logo.category,
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                "max-video-preview": -1,
+                "max-image-preview": "large",
+                "max-snippet": -1,
+            },
+        },
         openGraph: {
-            title: `${logo.name} Logo - ${t.site.title}`,
-            description: logo.description || `Download the official ${logo.name} logo`,
+            title: `${logo.name} Logo | Free Download`,
+            description: logoDescription,
+            type: "website",
+            siteName: t.site.title,
+            locale: "en_US",
+            url: `/logos/${slug}`,
             images: [
                 {
                     url: logo.url,
-                    width: 512,
-                    height: 512,
-                    alt: `${logo.name} logo`,
+                    width: 800,
+                    height: 800,
+                    alt: `${logo.name} official logo`,
+                    type: "image/svg+xml",
                 },
             ],
-            type: "website",
         },
         twitter: {
             card: "summary_large_image",
-            title: `${logo.name} Logo`,
-            description: logo.description || `Download the official ${logo.name} logo`,
+            site: "@logocollection",
+            creator: "@logocollection",
+            title: `${logo.name} Logo | Free Download`,
+            description: logoDescription,
             images: [logo.url],
         },
         alternates: {
@@ -80,29 +118,110 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
 
     const relatedLogos = getRelatedLogos(logo, 4);
 
-    // Structured data for SEO
+    // Enhanced structured data for better SEO
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "ImageObject",
+        "@id": `https://mohammed-aydan.me/logos/${slug}`,
         name: `${logo.name} Logo`,
-        description: logo.description,
+        description: logo.description || `Official ${logo.name} logo in high-quality SVG and PNG formats`,
         contentUrl: logo.url,
         thumbnailUrl: logo.url,
         encodingFormat: "image/svg+xml",
+        width: "800",
+        height: "800",
+        uploadDate: "2024-01-01",
+        license: "https://creativecommons.org/publicdomain/zero/1.0/",
+        acquireLicensePage: `https://mohammed-aydan.me/logos/${slug}`,
         creator: {
             "@type": "Organization",
             name: logo.name,
-            url: logo.website,
+            url: logo.website || `https://mohammed-aydan.me/logos/${slug}`,
+            logo: {
+                "@type": "ImageObject",
+                url: logo.url,
+            },
         },
+        about: {
+            "@type": "Thing",
+            name: logo.category,
+            description: `${logo.name} is a ${logo.category.toLowerCase()}`,
+        },
+        isPartOf: {
+            "@type": "CollectionPage",
+            name: t.site.title,
+            url: "https://mohammed-aydan.me/logos",
+        },
+        keywords: `${logo.name} logo, ${logo.name} svg, ${logo.name} png, ${logo.category} logo, free logo download`,
+    };
+
+    // Breadcrumb structured data
+    const breadcrumbData = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://mohammed-aydan.me",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Logos",
+                item: "https://mohammed-aydan.me/logos",
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                name: logo.name,
+                item: `https://mohammed-aydan.me/logos/${slug}`,
+            },
+        ],
+    };
+
+    // Product structured data for better discoverability
+    const productData = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: `${logo.name} Logo`,
+        description: logo.description || `Official ${logo.name} logo`,
+        image: logo.url,
+        brand: {
+            "@type": "Brand",
+            name: logo.name,
+        },
+        offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url: `https://mohammed-aydan.me/logos/${slug}`,
+        },
+        category: logo.category,
     };
 
     return (
         <>
-            {/* Structured Data for SEO */}
+            {/* Enhanced Structured Data for SEO */}
             <Script
-                id={slug}
+                id={`logo-${slug}`}
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                strategy="beforeInteractive"
+            />
+            <Script
+                id={`breadcrumb-${slug}`}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+                strategy="beforeInteractive"
+            />
+            <Script
+                id={`product-${slug}`}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productData) }}
+                strategy="beforeInteractive"
             />
 
             <main className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">

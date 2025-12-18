@@ -1,0 +1,32 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /private/
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Googlebot Images - Allow logo crawling
+User-agent: Googlebot-Image
+Allow: /logos/
+Disallow: /api/
+Disallow: /admin/
+
+# Bingbot
+User-agent: bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: https://mohammed-aydan.me/sitemap.xml
+
+# Host
+Host: https://mohammed-aydan.me
