@@ -119,6 +119,10 @@ export const aiSystemData = `
 - التعلم المستمر وتطوير المهارات - *Continuous learning and skill enhancement*
 
 ---
+links:
+    Flutter CV or Resume: ${process.env.NEXT_PUBLIC_SITE_URL}/en/links/cv-1
+    Full-Stack CV or Resume: ${process.env.NEXT_PUBLIC_SITE_URL}/en/links/cv-2
+---
 
 **© 2024 محمد أيدن - Mohammed Aydan. جميع الحقوق محفوظة - All rights reserved.**
 `;

@@ -26,7 +26,7 @@ Disallow: /admin/
 Crawl-delay: 1
 
 # Sitemaps
-Sitemap: https://mohammed-aydan.me/sitemap.xml
+Sitemap: https://mohammed-aydan.vercel.app/sitemap.xml
 
 # Host
-Host: https://mohammed-aydan.me
+Host: https://mohammed-aydan.vercel.app
