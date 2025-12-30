@@ -3,13 +3,13 @@
   <ShortName>Mohammed Aydan</ShortName>
   <Description>Search logos and developer resources on Mohammed Aydan's portfolio</Description>
   <Tags>developer portfolio logos svg png download</Tags>
-  <Contact>contact@mohammed-aydan.me</Contact>
-  <Url type="text/html" template="https://mohammed-aydan.me/logos?q={searchTerms}"/>
-  <Url type="application/x-suggestions+json" template="https://mohammed-aydan.me/api/search-suggestions?q={searchTerms}"/>
-  <Image height="64" width="64" type="image/png">https://mohammed-aydan.me/icon-192x192.png</Image>
-  <Image height="16" width="16" type="image/x-icon">https://mohammed-aydan.me/favicon.ico</Image>
+  <Contact>mohammedaydan12@gmail.com</Contact>
+  <Url type="text/html" template="https://mohammed-aydan.vercel.app/logos?q={searchTerms}"/>
+  <Url type="application/x-suggestions+json" template="https://mohammed-aydan.vercel.app/api/search-suggestions?q={searchTerms}"/>
+  <Image height="64" width="64" type="image/png">https://mohammed-aydan.vercel.app/icon-192x192.png</Image>
+  <Image height="16" width="16" type="image/x-icon">https://mohammed-aydan.vercel.app/favicon.ico</Image>
   <InputEncoding>UTF-8</InputEncoding>
-  <SearchForm>https://mohammed-aydan.me/logos</SearchForm>
+  <SearchForm>https://mohammed-aydan.vercel.app/logos</SearchForm>
   <Language>en-us</Language>
   <Language>ar</Language>
   <OutputEncoding>UTF-8</OutputEncoding>

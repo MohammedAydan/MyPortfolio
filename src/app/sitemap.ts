@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 import { logos } from '@/lib/logos-lib/logos-data';
 
 const BASE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://mohammed-aydan.me';
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://mohammed-aydan.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     // Main paths

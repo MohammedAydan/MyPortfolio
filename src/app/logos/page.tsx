@@ -113,12 +113,12 @@ export default async function LogosPage({ searchParams }: LogosPageProps) {
         "@type": "CollectionPage",
         name: t.site.title,
         description: t.site.description,
-        url: "https://mohammed-aydan.me/logos",
+        url: "https://mohammed-aydan.vercel.app/logos",
         inLanguage: "en-US",
         isPartOf: {
             "@type": "WebSite",
             name: "Your Site Name",
-            url: "https://mohammed-aydan.me",
+            url: "https://mohammed-aydan.vercel.app",
         },
         numberOfItems: logos.length,
         about: {
@@ -134,7 +134,7 @@ export default async function LogosPage({ searchParams }: LogosPageProps) {
             name: "Logo Collection",
             logo: {
                 "@type": "ImageObject",
-                url: "https://mohammed-aydan.me/logo.png",
+                url: "https://mohammed-aydan.vercel.app/logo.png",
             },
         },
         mainEntity: {
@@ -145,14 +145,14 @@ export default async function LogosPage({ searchParams }: LogosPageProps) {
                 position: index + 1,
                 item: {
                     "@type": "ImageObject",
-                    "@id": `https://mohammed-aydan.me/logos/${logo.slug}`,
+                    "@id": `https://mohammed-aydan.vercel.app/logos/${logo.slug}`,
                     name: `${logo.name} Logo`,
                     description: logo.description || `Official ${logo.name} logo in SVG and PNG formats`,
                     contentUrl: logo.url,
                     thumbnailUrl: logo.url,
                     encodingFormat: "image/svg+xml",
                     license: "https://creativecommons.org/publicdomain/zero/1.0/",
-                    acquireLicensePage: `https://mohammed-aydan.me/logos/${logo.slug}`,
+                    acquireLicensePage: `https://mohammed-aydan.vercel.app/logos/${logo.slug}`,
                     creator: {
                         "@type": "Organization",
                         name: logo.name,
@@ -171,13 +171,13 @@ export default async function LogosPage({ searchParams }: LogosPageProps) {
                     "@type": "ListItem",
                     position: 1,
                     name: "Home",
-                    item: "https://mohammed-aydan.me",
+                    item: "https://mohammed-aydan.vercel.app",
                 },
                 {
                     "@type": "ListItem",
                     position: 2,
                     name: "Logos",
-                    item: "https://mohammed-aydan.me/logos",
+                    item: "https://mohammed-aydan.vercel.app/logos",
                 },
             ],
         },

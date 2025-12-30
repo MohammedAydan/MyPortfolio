@@ -15,7 +15,7 @@ export default function Home() {
             "@type": "WebSite",
             "name": "Mohammed Aydan",
             "alternateName": "محمد أيدن",
-            "url": "https://www.mohammed-aydan.me/",
+            "url": "https://mohammed-aydan.vercel.app/",
           }),
         }}
       />

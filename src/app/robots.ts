@@ -2,7 +2,7 @@
 import { MetadataRoute } from 'next';
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://mohammed-aydan.me';
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://mohammed-aydan.vercel.app';
 
 export default function robots(): MetadataRoute.Robots {
   return {

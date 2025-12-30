@@ -122,7 +122,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "ImageObject",
-        "@id": `https://mohammed-aydan.me/logos/${slug}`,
+        "@id": `https://mohammed-aydan.vercel.app/logos/${slug}`,
         name: `${logo.name} Logo`,
         description: logo.description || `Official ${logo.name} logo in high-quality SVG and PNG formats`,
         contentUrl: logo.url,
@@ -132,11 +132,11 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
         height: "800",
         uploadDate: "2024-01-01",
         license: "https://creativecommons.org/publicdomain/zero/1.0/",
-        acquireLicensePage: `https://mohammed-aydan.me/logos/${slug}`,
+        acquireLicensePage: `https://mohammed-aydan.vercel.app/logos/${slug}`,
         creator: {
             "@type": "Organization",
             name: logo.name,
-            url: logo.website || `https://mohammed-aydan.me/logos/${slug}`,
+            url: logo.website || `https://mohammed-aydan.vercel.app/logos/${slug}`,
             logo: {
                 "@type": "ImageObject",
                 url: logo.url,
@@ -150,7 +150,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
         isPartOf: {
             "@type": "CollectionPage",
             name: t.site.title,
-            url: "https://mohammed-aydan.me/logos",
+            url: "https://mohammed-aydan.vercel.app/logos",
         },
         keywords: `${logo.name} logo, ${logo.name} svg, ${logo.name} png, ${logo.category} logo, free logo download`,
     };
@@ -164,19 +164,19 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: "https://mohammed-aydan.me",
+                item: "https://mohammed-aydan.vercel.app",
             },
             {
                 "@type": "ListItem",
                 position: 2,
                 name: "Logos",
-                item: "https://mohammed-aydan.me/logos",
+                item: "https://mohammed-aydan.vercel.app/logos",
             },
             {
                 "@type": "ListItem",
                 position: 3,
                 name: logo.name,
-                item: `https://mohammed-aydan.me/logos/${slug}`,
+                item: `https://mohammed-aydan.vercel.app/logos/${slug}`,
             },
         ],
     };
@@ -197,7 +197,7 @@ export default async function LogoDetailPage({ params }: LogoDetailPageProps) {
             price: "0",
             priceCurrency: "USD",
             availability: "https://schema.org/InStock",
-            url: `https://mohammed-aydan.me/logos/${slug}`,
+            url: `https://mohammed-aydan.vercel.app/logos/${slug}`,
         },
         category: logo.category,
     };
